@@ -9,7 +9,7 @@ export default class App extends Component {
   render() {
     return (
       <View style={[styles.container, styles.horizontal]}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#F8C732" />
       </View>
     )
   }

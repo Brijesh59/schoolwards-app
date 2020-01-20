@@ -2,6 +2,7 @@ import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { Router, Scene, Stack, Actions, Drawer } from 'react-native-router-flux'
 
+import OnBoarding from '../screens/OnBoarding'
 import Login from '../screens/Login'
 import Dashboard from '../screens/Dashboard'
 import Details from '../screens/Details'
@@ -17,6 +18,10 @@ const RouterComponent = () => {
                      
                     <Scene key="splashScreen" component={SplashScreen} direction="left" />
                  
+                    <Scene key="onBoarding" hideNavBar>
+                        <Scene key="onBoardingScreeen" component={OnBoarding} />
+                    </Scene>
+
                     <Scene key="auth" hideNavBar>
                         <Scene key="login" component={Login} />
                     </Scene>

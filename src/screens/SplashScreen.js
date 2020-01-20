@@ -1,28 +1,54 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { AsyncStorage } from 'react-native';
+import * as Progress from 'react-native-progress'
 
 class SplashScreen extends Component {
+    state = {
+        progress: 0
+    }
+    
     componentDidMount(){
+
+        let loadingInterval = setInterval(()=>{
+            this.setState( {
+                progress: this.state.progress + 0.1
+            })
+        }, 200)
+
         setTimeout(async () => {
             const isUserLoggedIn = await AsyncStorage.getItem('isUserLoggedIn')
-            // if(isUserLoggedIn === null){
-            //     console.log('NULL')
-            // }
-            // if(isUserLoggedIn === 'true'){
-            //     console.log('TRUE')
-            // }
-            // if(isUserLoggedIn === 'false'){
-            //     console.log('FALSE')
-            // }
-            isUserLoggedIn === 'true' ?  Actions.drawerMenu() : Actions.auth()
+            const isFirstTimeUse = await AsyncStorage.getItem('isFirstTimeUse')
+
+            clearInterval(loadingInterval)
+
+            if(isFirstTimeUse === null){
+                Actions.onBoarding()
+            }
+            else if(isUserLoggedIn === 'true'){
+                Actions.drawerMenu()
+            }
+            else{
+                Actions.auth()
+            }
         }, 2000)
     }
+
     render() {
         return (
             <View style={styles.container}>
-               <Text style={styles.welcome}>SplashScreen</Text>    
+               <Image source={require('./assets/schoolLogo.png')} style={{
+                    marginBottom: 20,
+                    width: 200,
+                    height: 200
+                }}/>
+               <Progress.Bar 
+                    progress={this.state.progress} 
+                    width={250} 
+                    unfilledColor='#8DC6F3' 
+                    color='#F8C732' 
+                    borderWidth={0} />
             </View>
         );
     }

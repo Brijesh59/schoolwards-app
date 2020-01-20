@@ -1,6 +1,6 @@
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/messaging';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Platform } from 'react-native';
 import app_config from './config'
 import PushNotification from 'react-native-push-notification';
 
@@ -50,11 +50,9 @@ export default class FirebaseConfig{
       console.log('FCM Message in Foreground:', remoteMessage.data);
       this.sendLocalNotification();
     });
-    
   }
 
-  async createBackgroundSync() {
-    console.log("Listening for Background Notifications... ")
+  createBackgroundSync() {
     firebase
       .messaging()
       .setBackgroundMessageHandler(async (remoteMessage) => {
@@ -65,10 +63,11 @@ export default class FirebaseConfig{
   }
 
   sendLocalNotification() {
-    PushNotification.localNotification({
-      title: "Test Title",
-      message: "Test Message"
-    })
+    if( Platform.OS === 'android') 
+      PushNotification.localNotification({
+        title: "Test Title",
+        message: "Test Message"
+      })
   }
 }  
 

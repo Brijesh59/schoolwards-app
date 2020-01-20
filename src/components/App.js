@@ -4,7 +4,6 @@ import {StyleSheet, StatusBar, AsyncStorage} from 'react-native';
 import Router from './Router';
 import FirebaseConfig from '../../utils/Firebase'
 
-
 class App extends Component{
 
   constructor(props){
@@ -26,7 +25,9 @@ class App extends Component{
 
     return (
       <> 
-        <StatusBar backgroundColor="white" barStyle="dark-content"  />
+        <StatusBar 
+          backgroundColor="#3295E9" 
+          barStyle="light-content" />
         <Router />
       </>
     )

@@ -42,7 +42,7 @@ class VerifyOTP extends Component {
         formData.append('app_version', app_config.version)
         formData.append('appname', app_config.schoolName)
 
-        console.log("FormData: ",formData)
+        // console.log("FormData: ",formData)
 
         fetch(APIs.VERIFY_OTP, {
           method: 'POST',

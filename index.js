@@ -10,3 +10,4 @@ let firebase = new FirebaseConfig()
 firebase.createBackgroundSync();
 
 AppRegistry.registerComponent(appName, () => App);
+
