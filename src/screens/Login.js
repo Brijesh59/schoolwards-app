@@ -16,7 +16,6 @@ class Login extends Component {
     }
   }
   componentDidMount(){
-
     // Prevent going Back
     BackHandler.addEventListener('hardwareBackPressed', () => {
         //BackHandler.exitApp()
