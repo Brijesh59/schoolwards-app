@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, TextInput, Button, BackHandler, AsyncStorage} from 'react-native'
+import {View, Text, StyleSheet, TextInput, Button, BackHandler} from 'react-native'
 import ActivityLoader from '../components/common/ActivityLoader'
 import { Actions } from 'react-native-router-flux';
 

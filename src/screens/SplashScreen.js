@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import * as Progress from 'react-native-progress'
 
 class SplashScreen extends Component {
@@ -27,7 +27,7 @@ class SplashScreen extends Component {
                 Actions.onBoarding()
             }
             else if(isUserLoggedIn === 'true'){
-                Actions.drawerMenu()
+                Actions.dashboard()
             }
             else{
                 Actions.auth()

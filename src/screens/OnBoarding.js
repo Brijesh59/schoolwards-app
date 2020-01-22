@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Image, Text,  AsyncStorage, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import AppIntroSlider from 'react-native-app-intro-slider';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Actions } from 'react-native-router-flux';
 
 const slides = [
@@ -37,7 +38,7 @@ export default class App extends React.Component {
                     style={styles.btn}>
                     <Text style={{fontSize: 16, letterSpacing: 1, width: '100%', textAlign:'center'}} onPress={async()=>{
                         console.log('Pressed')
-                        // await AsyncStorage.setItem('isFirstTimeUse', 'false')
+                        await AsyncStorage.setItem('isFirstTimeUse', 'false')
                         Actions.auth()
                     }}>
                         Get started

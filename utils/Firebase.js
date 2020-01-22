@@ -1,6 +1,7 @@
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/messaging';
-import { AsyncStorage, Platform } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { Platform } from 'react-native';
 import app_config from './config'
 import PushNotification from 'react-native-push-notification';
 

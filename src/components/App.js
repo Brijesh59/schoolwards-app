@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, StatusBar, AsyncStorage} from 'react-native';
+import {StyleSheet, StatusBar} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Router from './Router';
 import FirebaseConfig from '../../utils/Firebase'
 

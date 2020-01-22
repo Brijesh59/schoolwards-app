@@ -11,9 +11,12 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.7.1",
     "@react-native-firebase/app": "^6.2.0",
     "@react-native-firebase/messaging": "^6.2.0",
+    "axios": "^0.19.1",
     "concurrently": "^5.0.2",
+    "native-base": "^2.13.8",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-app-intro-slider": "^3.0.0",

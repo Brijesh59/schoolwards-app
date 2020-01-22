@@ -3,7 +3,8 @@ import { View, Text, TextInput, BackHandler, StyleSheet } from 'react-native';
 import ActivityLoader from '../components/common/ActivityLoader'
 import APIs from '../../utils/api'
 import { Actions } from 'react-native-router-flux';
-import CustomButton from '../components/common/CustomButton'
+import CustomButton from '../components/common/CustomButton';
+import app_config from '../../utils/config'
 
 class Login extends Component {
 
@@ -38,7 +39,7 @@ class Login extends Component {
     this.setState({isLoading: true, data: ''})
     let formData = new FormData();
     formData.append('mobile', this.state.value)
-    formData.append('appname', 'svs')
+    formData.append('appname', app_config.schoolName)
 
     fetch(APIs.GET_OTP, {
       method: 'POST',
@@ -67,19 +68,23 @@ class Login extends Component {
           style={{ height: 40, borderColor: 'gray', borderWidth: 1, width:'80%', textAlign:'center', marginTop: 20 }}
           onChangeText={text => this.onChangeText(text)}
           value={this.state.value}
-          numeric value
+          numeric 
           keyboardType={'numeric'} 
           placeholder="Your 10 digit Mobile No"
+          autoCompleteType="off"
         />
         <CustomButton 
           title='Next'
           onPressFunction={this.sendOTP}
           style={{marginTop: 20, width:'80%'}}
         />
-        {this.state.isLoading && <ActivityLoader />}
-        <Text>
-          {this.state.data.response}
-        </Text>
+        { this.state.isLoading && <ActivityLoader /> }
+        { this.state.data.response && this.state.data.response!='success' && 
+          <Text style={styles.errorStyle}>
+            {this.state.data.response}
+          </Text> 
+        }   
+        
       </View>
     );
   }
@@ -104,6 +109,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     color: '#808080'
+  },
+  errorStyle: {
+    width: '80%',
+    marginTop: 20,
+    backgroundColor: '#ffcdd2',
+    padding: 10,
+    textAlign: 'center',
+    borderColor: '#f44336',
+    borderWidth: 1
   }
 });
 

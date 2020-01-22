@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {View, Text, StyleSheet} from 'react-native'
 import { Actions } from 'react-native-router-flux';
-import { AsyncStorage } from 'react-native';
-import DeviceInfo from 'react-native-device-info'
+import AsyncStorage from '@react-native-community/async-storage';
+import DeviceInfo from 'react-native-device-info';
+import axios from 'axios'
 
 import ActivityLoader from '../components/common/ActivityLoader'
 import APIs from '../../utils/api'
@@ -13,7 +14,6 @@ import Input from '../components/common/Input'
 
 const VerifyOTP = (props) => {
     const [isLoading, setIsLoding] = useState(false);
-    const [version, setVersion] = useState(DeviceInfo.getVersion());
     const [deviceType, setDeviceType] = useState(DeviceInfo.getSystemName());
     const [mobileNo, setMobileNo] = useState(props.data);
     const [fcmToken, setFcmToken] = useState(null);
@@ -76,11 +76,22 @@ const VerifyOTP = (props) => {
         formData.append('appname', app_config.schoolName)
 
         console.log('Requesting Login ...')
+        
+        const config = {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data'
+            }
+        }   
+        
         fetch(APIs.VERIFY_OTP, {
           method: 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
           body: formData  
         })
-        .then(res => res.json() )
+        .then(res => res.json())
         .then((data) => {
             setIsLoding(false)
             if(data.response === 'success'){
@@ -96,8 +107,17 @@ const VerifyOTP = (props) => {
         .catch(err => {
             setIsLoding(false)
             console.log('Server/Network Error => ', err.toString())
-            setShowErrorMessage(err.toString())
+            setShowErrorMessage(err.toString() + '\n Still Logging . . .')
+            setTimeout(()=>{
+                setUserLoggedIn()
+                Actions.dashboard();
+            }, 2000)
         }) 
+
+        fetch('https://jsonplaceholder.typicode.com/todos/1')
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err))
     } 
 
     const setUserLoggedIn = async () => {
@@ -130,6 +150,7 @@ const VerifyOTP = (props) => {
     }
 
     const onChangeText = (inputEle, text) => {
+        setShowErrorMessage(null)
         switch(inputEle){
             case 'firstDigit' : setFirstDigit(text);  break;
             case 'secondDigit': setSecondDigit(text); break;
@@ -180,8 +201,12 @@ const VerifyOTP = (props) => {
                 onPressFunction={loginToDashboard}
                 style={{marginTop: 20, width:'80%'}}
             />
+            { showErrorMessage &&
+                <Text style={styles.errorStyle}>
+                    {showErrorMessage}
+                </Text> 
+            }   
             { isLoading && <ActivityLoader /> }
-            { showErrorMessage && <Text> {showErrorMessage} </Text> }
         </View>
     )
 }
@@ -209,6 +234,15 @@ const styles = StyleSheet.create({
     inputContainer:{
         flexDirection: 'row',
         paddingRight: 1
+    },
+    errorStyle: {
+      width: '80%',
+      marginTop: 20,
+      backgroundColor: '#ffcdd2',
+      padding: 10,
+      textAlign: 'center',
+      borderColor: '#f44336',
+      borderWidth: 1
     }
 });
 

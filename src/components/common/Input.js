@@ -8,7 +8,7 @@ export default function Input(props) {
             <TextInput 
                 ref={props.reference}
                 onChangeText={props.onChangeText}
-                numeric value
+                numeric 
                 keyboardType={'numeric'} 
                 maxLength={1}
                 style={{fontSize: 18}}

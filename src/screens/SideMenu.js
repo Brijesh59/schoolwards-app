@@ -10,8 +10,9 @@ export default class SideMenu extends Component {
 
     render() {
         return (
-            <View style={styles.container}
-            onStartShouldSetResponder={() => console.log('You touched sidemenu')}>
+            <View 
+                style={styles.container}
+                onStartShouldSetResponder={ () => console.log('You touched sidemenu')} >
                 <Text>Menu</Text>
                 <View style={styles.closeBtn}>
                     <Button title="Close" onPress={()=>Actions.drawerClose()} />
