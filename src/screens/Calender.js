@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import {StyleSheet, View} from 'react-native'
+import {StyleSheet, View, ScrollView} from 'react-native'
 import { Container, Content, Left, Icon, Title, Header, Button, Body, Text, Grid, Col} from 'native-base'
 import { Actions } from 'react-native-router-flux';
+import {Calendar, Agenda} from 'react-native-calendars';
 
-export default function Calender() {
+export default function CalenderScreen() {
     const [selectedStudent, setSelectedStudent] = useState(0)
 
     return (
@@ -21,6 +22,7 @@ export default function Calender() {
                     <Title>Calender</Title>
                 </Body> 
             </Header>
+            <ScrollView>
             <Content 
                 contentContainerStyle={styles.container}>
                 <Grid style={{
@@ -54,7 +56,42 @@ export default function Calender() {
                         ))
                     }
                 </Grid>
+                
+                <Calendar
+                    onDayPress={(day) => {console.log('selected day', day)}}
+
+                    monthFormat={'MMM yyyy'}
+
+                    onMonthChange={(month) => {console.log('month changed', month)}}
+
+                    hideExtraDays={true}
+
+                    firstDay={1}
+        
+                    onPressArrowLeft={substractMonth => substractMonth()}
+                    style={{
+                        borderWidth: 1,
+                        borderColor: '#f2f2f2',
+                        borderTopWidth: 5,
+                        borderTopColor: '#2C96EA',
+                        height: 'auto',
+                        width: '90%',
+                        shadowOffset:{
+                            width: 5,
+                            height:2
+                        },
+                        shadowOpacity: 0.4
+                      }}
+                      theme={{
+                        selectedDayBackgroundColor: '#2C96EA',
+                        selectedDayTextColor: '#ffffff',
+                      }}
+                      selected={'2020-01-24'}
+                    onPressArrowRight={addMonth => addMonth()}
+                    />
+                    
             </Content>
+            </ScrollView>
         </Container>
     )
 }
