@@ -1,7 +1,8 @@
 import React from 'react'
-import {StyleSheet} from 'react-native'
+import {StyleSheet, YellowBox} from 'react-native'
 import { Text, Container, Content, Left, Button, Icon, Title, Body, Right, Header ,Drawer} from 'native-base'
 import SideBar from './SideBar'
+
 
 export default class Home extends React.Component{
 
@@ -28,12 +29,12 @@ export default class Home extends React.Component{
                     </Body>
                     <Right style={{maxWidth:60}}>
                         <Button transparent>
-                            <Icon name='add' />
+                            <Icon name='thumbs-up' />
                         </Button>
                     </Right>
                     <Right style={{maxWidth:60}}>
                         <Button transparent>
-                            <Icon name='remove' />
+                            <Icon name='warning' />
                         </Button>
                     </Right>
                 </Header>

@@ -1,10 +1,21 @@
 import React from 'react'
-import {StyleSheet} from 'react-native'
+import {StyleSheet, Platform, Linking, TouchableOpacity} from 'react-native'
 import { Text, Container, Content, Left, Icon, Title, List, ListItem, Thumbnail, Header, Button, Body, Grid, Col, Row} from 'native-base'
 import { Actions } from 'react-native-router-flux';
-import CustomButton from '../components/common/CustomButton'
+
 
 export default function ContactUs() {
+    const dialCall = (phoneNumber) => {
+        console.log('Dialing ...')
+        let phone = ''
+        if (Platform.OS === 'android') {
+            phone = `tel:${phoneNumber}`
+        }
+        else {
+            phone = `telprompt:${phoneNumber}`
+        }
+        Linking.openURL(phone)
+    }
     return (
         <Container> 
             <Header style={styles.header}   androidStatusBarColor="#3295E9" 
@@ -49,10 +60,13 @@ export default function ContactUs() {
                             </Text>
                         </Col>
                         <Col> 
-                            <Text 
-                                style={styles.value}>
-                                020-26940500
-                            </Text>
+                            <TouchableOpacity 
+                                onPress={()=>dialCall('020-26940500')}>
+                                <Text 
+                                    style={styles.value, {textDecorationLine: 'underline'}}>
+                                    020-26940500
+                                </Text>
+                            </TouchableOpacity>
                         </Col>
                     </Row>
                     
