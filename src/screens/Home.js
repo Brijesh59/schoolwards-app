@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, YellowBox, PermissionsAndroid, Alert} from 'react-native'
+import {StyleSheet, Alert} from 'react-native'
 import { Text, Container, Content, Left, Button, Icon, Title, Body, Right, Header ,Drawer, Toast} from 'native-base'
 import SideBar from './SideBar'
 import { Actions } from 'react-native-router-flux'
@@ -28,17 +28,17 @@ export default class Home extends React.Component{
             <Container> 
                 <Header style={styles.header}   androidStatusBarColor="#3295E9" 
                 iosBarStyle="light-content">
-                    <Left style={{maxWidth:60}}>
+                    <Left style={{maxWidth:60, marginLeft: 8}}>
                         <Button transparent onPress={this.openDrawer}>
-                            <Icon name='menu' />
+                            <Icon name='menu' style={styles.iconStyle} />
                         </Button>
                     </Left>
-                    <Body>
-                        <Title>SVS</Title>
+                    <Body style={{alignItems: 'flex-start'}}>
+                        <Title style={styles.headerTitle}>SVS</Title>
                     </Body>
                     <Right style={{maxWidth:60}} >
                         <Button transparent >
-                            <Icon name='options'/>
+                            <Icon name='options' style={styles.iconStyle}/>
                         </Button>
                     </Right>
                     <Right style={{maxWidth:60}}>
@@ -66,7 +66,7 @@ export default class Home extends React.Component{
                                         )
                                  }}
                         >
-                            <Icon name='log-out' />
+                            <Icon name='log-out' style={styles.iconStyle}/>
                         </Button>
                     </Right>
                 </Header>
@@ -87,7 +87,13 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     header: { 
-        backgroundColor: '#2C96EA'
+        backgroundColor: '#2C96EA',
+    },
+    headerTitle:{
+        color: 'white', 
+    },
+    iconStyle:{
+        color: 'white',
     }
 });
   

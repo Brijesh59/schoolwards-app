@@ -11,7 +11,7 @@ export default function Input(props) {
                 numeric 
                 keyboardType={'numeric'} 
                 maxLength={1}
-                style={{fontSize: 18}}
+                style={styles.inputStyle}
                 onFocus={() => setFocusStyle(1)}
                 onBlur={() => setFocusStyle(0)}
             />
@@ -25,14 +25,22 @@ const styles = StyleSheet.create({
         height: 45,
         borderWidth: 1,
         borderColor: '#808080', 
+        justifyContent: 'center',
         alignItems: "center",
         margin: 3
+    },
+    inputStyle:{
+        fontSize: 18,
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#808080'
     },
     focusStyle:{
         width: 45,
         height: 45,
         borderWidth: 1,
         borderColor: '#808080', 
+        justifyContent: 'center',
         alignItems: "center",
         margin: 3,
         borderBottomColor: '#F8C732',

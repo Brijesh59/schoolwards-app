@@ -69,15 +69,15 @@ export default function CalenderScreen() {
         <Container> 
             <Header style={styles.header}  androidStatusBarColor="#3295E9" 
             iosBarStyle="light-content">
-                <Left style={{maxWidth:60}}>
+                <Left style={{maxWidth:60, marginLeft: 8}}>
                     <Button 
                         transparent 
                         onPress={()=>Actions.pop()}>
-                        <Icon name='arrow-back' />
+                        <Icon name='arrow-back' style={styles.iconStyle} />
                     </Button>
                 </Left>
-                <Body>
-                    <Title>Calender</Title>
+                <Body style={{alignItems: 'flex-start'}} >
+                    <Title style={styles.headerTitle} >Calender</Title>
                 </Body> 
             </Header>
             <ScrollView>
@@ -223,6 +223,12 @@ const styles = StyleSheet.create({
     header:{
         backgroundColor: '#2C96EA',
         color: 'white'
+    },
+    headerTitle:{
+        color: 'white', 
+    },
+    iconStyle:{
+        color: 'white',
     },
     selectedStudent:{
         backgroundColor: '#2C96EA',

@@ -3,7 +3,7 @@ import '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Platform } from 'react-native';
 import app_config from './config'
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
 
 export default class FirebaseConfig{
 
@@ -13,7 +13,7 @@ export default class FirebaseConfig{
     if (enabled) {
       this.getToken();
     } else {
-      console.log('User not permitte for token.');
+      console.log('User not permitted for token.');
       this.requestPermission();
     }
   }
@@ -26,7 +26,7 @@ export default class FirebaseConfig{
       this.getToken();
     } catch (error) {
       // User has rejected permissions
-      console.log('Permission Rejected!!');
+      console.log('Permission Rejected!!', error);
     }
   }
 
@@ -64,11 +64,13 @@ export default class FirebaseConfig{
   }
 
   sendLocalNotification() {
-    if( Platform.OS === 'android') 
-      PushNotification.localNotification({
-        title: "Test Title",
-        message: "Test Message"
-      })
+    if( Platform.OS === 'android') {
+      // PushNotification.localNotification({
+      //   title: "Test Title",
+      //   message: "Test Message"
+      // })
+    }
+      
   }
 }  
 

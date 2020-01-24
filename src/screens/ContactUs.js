@@ -20,15 +20,15 @@ export default function ContactUs() {
         <Container> 
             <Header style={styles.header}   androidStatusBarColor="#3295E9" 
             iosBarStyle="light-content">
-                <Left style={{maxWidth:60}}>
+                <Left style={{maxWidth:60, marginLeft: 8}}>
                     <Button 
                         transparent 
                         onPress={()=>Actions.pop()}>
-                        <Icon name='arrow-back' />
+                        <Icon name='arrow-back' style={styles.iconStyle}/>
                     </Button>
                 </Left>
-                <Body>
-                    <Title>Contact Us</Title>
+                <Body style={{alignItems: 'flex-start'}}>
+                    <Title style={styles.headerTitle} >Contact Us</Title>
                 </Body> 
             </Header>
             <Content 
@@ -81,9 +81,15 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         //marginTop: 150
-      },
+    },
     header:{
         backgroundColor: '#2C96EA'
+    },
+    headerTitle:{
+        color: 'white', 
+    },
+    iconStyle:{
+        color: 'white',
     },
     name:{
         fontSize:22,

@@ -35,12 +35,13 @@ export default class App extends React.Component {
           {item.btn &&
             <View style={styles.doneBtn}>
                 <TouchableOpacity
-                    style={styles.btn}>
-                    <Text style={{fontSize: 16, letterSpacing: 1, width: '100%', textAlign:'center'}} onPress={async()=>{
-                        console.log('Pressed')
-                        await AsyncStorage.setItem('isFirstTimeUse', 'false')
-                        Actions.auth()
+                    style={styles.btn}
+                    onPress={async()=>{
+                      console.log('Pressed')
+                      await AsyncStorage.setItem('isFirstTimeUse', 'false')
+                      Actions.auth()
                     }}>
+                    <Text style={{fontSize: 16, letterSpacing: 1, width: '100%', textAlign:'center'}} >
                         Get started
                     </Text>
                 </TouchableOpacity>

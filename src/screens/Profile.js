@@ -9,15 +9,15 @@ export default function Profile() {
         <Container> 
             <Header style={styles.header}   androidStatusBarColor="#3295E9" 
             iosBarStyle="light-content">
-                <Left style={{maxWidth:60}}>
+                <Left style={{maxWidth:60, marginLeft: 8}}>
                     <Button 
                         transparent 
                         onPress={()=>Actions.pop()}>
-                        <Icon name='arrow-back' />
+                        <Icon name='arrow-back' style={styles.iconStyle}/>
                     </Button>
                 </Left>
-                <Body>
-                    <Title>Children</Title>
+                <Body style={{alignItems: 'flex-start'}}>
+                    <Title style={styles.headerTitle}>Children</Title>
                 </Body> 
             </Header>
             <Content 
@@ -184,6 +184,12 @@ const styles = StyleSheet.create({
       },
     header:{
         backgroundColor: '#2C96EA'
+    },
+    headerTitle:{
+        color: 'white', 
+    },
+    iconStyle:{
+        color: 'white',
     },
     name:{
         fontSize:20,

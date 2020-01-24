@@ -33,12 +33,20 @@ const VerifyOTP = (props) => {
     const sixthDigitRef  = useRef(null);
 
     async function getToken(){
-        const fcmToken = await AsyncStorage.getItem('fcmToken')
+        let fcmToken = null
+        try {
+            fcmToken = await AsyncStorage.getItem('fcmToken')
+        } catch (error) {
+            console.log('Error in fetching fcmToken')
+            return fcmToken
+        }
+       
         return fcmToken
     }
-    useEffect(() => {
-        //const fcmToken = await AsyncStorage.getItem('fcmToken')
-        setFcmToken(getToken())
+    useEffect(async() => {
+        const fcmToken = await getToken()
+        console.log("FCMToken: ", fcmToken)
+        setFcmToken(fcmToken)
         firstDigitRef.current.focus();
     }, [])
 
@@ -62,7 +70,7 @@ const VerifyOTP = (props) => {
         setFocus('sixthDigit')
     }, [fifthDigit])
 
-    const loginToDashboard = () => {
+    const loginToDashboard = async() => {
         setIsLoding(true)
         // verify OTP, then redirect to dashboard.
         const OTP = firstDigit + secondDigit + thirdDigit + fourthDigit + fifthDigit + sixthDigit
@@ -75,49 +83,68 @@ const VerifyOTP = (props) => {
         formData.append('app_version', app_config.version)
         formData.append('appname', app_config.schoolName)
 
-        console.log('Requesting Login ...')
+        console.log('Requesting Login for...', formData)
         
-        const config = {
+        axios.post(APIs.VERIFY_OTP, formData, {
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data'
+                'content-type': 'multipart/form-data'
             }
-        }   
-        
-        fetch(APIs.VERIFY_OTP, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
-          body: formData  
         })
-        .then(res => res.json())
-        .then((data) => {
+        .then(res => {
             setIsLoding(false)
-            if(data.response === 'success'){
-              console.log('Login Success.')  
-              setUserLoggedIn()
-              Actions.drawerMenu();
+            const response = res.data.response
+            console.log("Response: " , res.data)
+            if(response === 'success'){
+                console.log('Login Succes.')  
+                setUserLoggedIn()
+                Actions.dashboard();
             }
             else{
-              console.log('Login Failed => ', data.response)
-              setShowErrorMessage(data.response)  
+                console.log('Login Failed => ', response)
+                setShowErrorMessage(response)  
             }
         })
         .catch(err => {
             setIsLoding(false)
-            console.log('Server/Network Error => ', err.toString())
-            setShowErrorMessage(err.toString() + '\n Still Logging . . .')
-            setTimeout(()=>{
-                setUserLoggedIn()
-                Actions.dashboard();
-            }, 2000)
-        }) 
+            console.log('Server/Network Error => ', err)
+            setShowErrorMessage(err.toString())
+            // setTimeout(()=>{
+            //     setUserLoggedIn()
+            //     Actions.dashboard();
+            // }, 2000)
+        })
 
-        fetch('https://jsonplaceholder.typicode.com/todos/1')
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
+
+
+        // fetch(APIs.VERIFY_OTP, {
+        //   method: 'POST',
+        // //   headers: {
+        // //     'Content-Type': 'multipart/form-data'
+        // //   },
+        //   body: formData
+        // })
+        // .then(res => res.json())
+        // .then((data) => {
+        //     setIsLoding(false)
+        //     if(data.response === 'success'){
+        //       console.log('Login Succes.')  
+        //       setUserLoggedIn()
+        //       Actions.dashboard();
+        //     }
+        //     else{
+        //       console.log('Login Failed => ', data.response)
+        //       setShowErrorMessage(data.response)  
+        //     }
+        // })
+        // .catch(err => {
+        //     setIsLoding(false)
+        //     console.log('Server/Network Error => ', err)
+        //     setShowErrorMessage(err.toString() + '\n Still Logging . . .')
+        //     // setTimeout(()=>{
+        //     //     setUserLoggedIn()
+        //     //     Actions.dashboard();
+        //     // }, 2000)
+        // }) 
     } 
 
     const setUserLoggedIn = async () => {
