@@ -168,15 +168,18 @@ export default function CalenderScreen() {
                         snapToAlignment={'center'}
                         > 
                         {
-                            [0,1,2,3].map((event)=>(
-                                <Card  style={{
-                                    width:
-                                    optimumLayoutWidth-6,
-                                    shadowOffset:{
-                                        width: 0,
-                                        height: 0
-                                    }
-                                }}> 
+                            [0,1,2,3].map((event, index)=>(
+                                <Card 
+                                    style={{
+                                        width:
+                                        optimumLayoutWidth-6,
+                                        shadowOffset:{
+                                            width: 0,
+                                            height: 0
+                                        }
+                                        
+                                    }}
+                                    key={index}> 
                                     <CardItem 
                                         header 
                                         bordered 

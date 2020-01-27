@@ -37,6 +37,7 @@ const RouterComponent = () => {
                     </Scene>
  
                     <Scene 
+                        gesturesEnabled={false}
                         key="dashboard" 
                         component={Home} 
                         title="Dashboard" 
@@ -75,6 +76,10 @@ const RouterComponent = () => {
                     <Scene
                         key="settingScreen"
                         component={Setting}
+                    />
+                    <Scene
+                        key="detailsScreen"
+                        component={Details}
                     />
                 </Stack> 
             </Router>   

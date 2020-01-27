@@ -108,12 +108,7 @@ const VerifyOTP = (props) => {
             setIsLoding(false)
             console.log('Server/Network Error => ', err)
             setShowErrorMessage(err.toString())
-            // setTimeout(()=>{
-            //     setUserLoggedIn()
-            //     Actions.dashboard();
-            // }, 2000)
         })
-
 
 
         // fetch(APIs.VERIFY_OTP, {
