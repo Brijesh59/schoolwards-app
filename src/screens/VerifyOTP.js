@@ -153,11 +153,7 @@ const VerifyOTP = (props) => {
 
             })
         })
-
-
-        dateTime:"16 January 2020, 09:57 AM",
-        attatchment: null
-
+        
        await AsyncStorage.setItem('cachedData', JSON.stringify(dataToSave))
 
     }
