@@ -14,7 +14,7 @@ export default function HomeworkDetails({details}) {
                                 {details.title}
                             </Text>
                             <Text style={styles.subTitle}>
-                                Assigned By: {details.assignedBy}
+                                Assigned By - {details.assignedBy}
                             </Text>
                         </Body> 
                     </Left>

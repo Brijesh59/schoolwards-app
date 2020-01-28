@@ -33,7 +33,7 @@ export default function CustomCard({title, type, description, to, studentName, d
                         </Text>
                     </Left>
                     <Right>
-                        <Icon name={ getIcon(type)} style={styles.iconStyle} />
+                        <Icon name={ getIcon(type) } style={styles.iconStyle} />
                     </Right>
                 </CardItem>
                 <CardItem onPress={()=>onCardPressed()}>

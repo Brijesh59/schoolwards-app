@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {StyleSheet, View, ScrollView} from 'react-native'
 import { Text, Container, Content, Left, Icon, List, ListItem, Thumbnail} from 'native-base'
 import { Actions } from 'react-native-router-flux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default function SideBar() {
+    const [students, setStudents] = useState([])
+    useEffect(async() => {
+        const cachedData = await AsyncStorage.getItem('cachedData')
+        const JSONData = JSON.parse(cachedData)
+        setStudents(JSONData.students)
+    }, [])
     return (
         <Container style={styles.container}>
            <View style={{alignItems:'center'}}>
@@ -18,31 +25,20 @@ export default function SideBar() {
                     <ListItem header style={styles.listHeader}> 
                         <Text style={styles.listHeaderText}>Children</Text>
                     </ListItem>
-                    <ListItem 
-                        avatar 
-                        onPress={()=>Actions.profileScreen()}> 
-                        <Left style={styles.left}>
-                            <Thumbnail style={styles.thumbnail} source={{uri: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'}} />
-                        </Left>
-                        <Text style={styles.listItemTitle}>Soham Satpute</Text>
-                    </ListItem>
-                    <ListItem 
-                        avatar 
-                        onPress={()=>Actions.profileScreen()}>  
-                        <Left style={styles.left}>
-                            <Thumbnail style={styles.thumbnail} source={{uri: 'https://storage.jewnetwork.com/content/users/avatars/3675/avatar_3675_500.jpg'}} />
-                        </Left>
-                        <Text style={styles.listItemTitle}>Mehika Jadhav</Text>
-                    </ListItem>
-                    <ListItem 
-                        avatar 
-                        onPress={()=>Actions.profileScreen()}> 
-                        <Left style={styles.left}>
-                            <Thumbnail style={styles.thumbnail} source={{uri: 'https://cdn3.vectorstock.com/i/1000x1000/26/07/girl-icon-woman-avatar-face-icon-cartoon-style-vector-24742607.jpg'}} />
-                        </Left>
-                        <Text style={styles.listItemTitle}>Purvi Pancholi</Text>
-                    </ListItem>
-
+                    {
+                        students.map(student => (
+                            <ListItem 
+                                avatar 
+                                onPress={()=>Actions.profileScreen({student})}>  
+                                <Left style={styles.left}>
+                                    <Thumbnail style={styles.thumbnail} source={{uri: 'https://storage.jewnetwork.com/content/users/avatars/3675/avatar_3675_500.jpg'}} />
+                                </Left>
+                                <Text style={styles.listItemTitle}>
+                                    {student.name}
+                                </Text>
+                            </ListItem>
+                        ))
+                    }
                     <ListItem header style={styles.listHeader}> 
                         <Text style={styles.listHeaderText}>General</Text>
                     </ListItem>

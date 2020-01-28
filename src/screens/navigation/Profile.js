@@ -2,9 +2,9 @@ import React from 'react'
 import {StyleSheet} from 'react-native'
 import { Text, Container, Content, Left, Icon, Title, List, ListItem, Thumbnail, Header, Button, Body, Grid, Col, Row} from 'native-base'
 import { Actions } from 'react-native-router-flux';
-import CustomButton from '../components/common/CustomButton'
+import CustomButton from '../../components/common/CustomButton'
 
-export default function Profile() {
+export default function Profile({student}) {
     return (
         <Container> 
             <Header style={styles.header}   androidStatusBarColor="#3295E9" 
@@ -25,7 +25,7 @@ export default function Profile() {
                 <Thumbnail 
                     large
                     style={styles.thumbnail} source={{uri: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'}} />
-                <Text style={styles.name}>Soham Patel</Text>    
+<Text style={styles.name}>{student.name}</Text>    
                 <Grid style={styles.grid}>
                     <Row style={styles.row}>
                         <Col>
@@ -37,7 +37,7 @@ export default function Profile() {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                27
+                                {student.rollNo}
                             </Text>
                         </Col>
                     </Row>
@@ -51,7 +51,7 @@ export default function Profile() {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                1-A
+                                {student.class + '-' + student.division}
                             </Text>
                         </Col>
                     </Row>
@@ -65,7 +65,7 @@ export default function Profile() {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                01/12/2020
+                                {student.dateOfBirth}
                             </Text>
                         </Col>
                     </Row>
@@ -79,7 +79,7 @@ export default function Profile() {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                Male
+                                {student.gender}
                             </Text>
                         </Col>
                     </Row>
@@ -93,7 +93,7 @@ export default function Profile() {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                Tushar Satpute
+                                {student.fatherName}
                             </Text>
                         </Col>
                     </Row>
@@ -107,7 +107,7 @@ export default function Profile() {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                Swati Satpute
+                                {student.motherName}
                             </Text>
                         </Col>
                     </Row>
@@ -121,7 +121,7 @@ export default function Profile() {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                Ashok Nagarm Khardi Bypass, Pune, 411038
+                                {student.address}
                             </Text>
                         </Col>
                     </Row>
@@ -148,7 +148,8 @@ export default function Profile() {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                88956592356
+                                { student.preferenceContact === "mother" ?  student.motherMobile :
+                                student.fatherMobile }
                             </Text>
                         </Col>
                     </Row>
@@ -162,7 +163,8 @@ export default function Profile() {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                tushatpute@gmail.com
+                                { student.preferenceContact === "mother" ?  student.motherEmail :
+                                student.fatherEmail }
                             </Text>
                         </Col>
                     </Row>

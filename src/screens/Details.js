@@ -11,7 +11,7 @@ import NewsDetails from './details/NewsDetails'
 import TimetableDetails from './details/TimetableDetails'
 
 
-export default function Details({card: details}) {
+export default function Details({ details}) {
     const showDetails = () => {
         console.log("Showing Details")
         switch(details.type.toLowerCase()){

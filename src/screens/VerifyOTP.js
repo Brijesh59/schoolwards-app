@@ -90,13 +90,13 @@ const VerifyOTP = (props) => {
                 'content-type': 'multipart/form-data'
             }
         })
-        .then(res => {
+        .then(async(res) => {
             setIsLoding(false)
             const response = res.data.response
-            console.log("Response: " , res.data)
+            console.log("Response: " , res.data.common_events[0])
             if(response === 'success'){
                 console.log('Login Succes.')  
-                setUserLoggedIn()
+                await setUserLoggedIn(res.data.students, res.data.common_events)
                 Actions.dashboard();
             }
             else{
@@ -110,40 +110,56 @@ const VerifyOTP = (props) => {
             setShowErrorMessage(err.toString())
         })
 
-
-        // fetch(APIs.VERIFY_OTP, {
-        //   method: 'POST',
-        // //   headers: {
-        // //     'Content-Type': 'multipart/form-data'
-        // //   },
-        //   body: formData
-        // })
-        // .then(res => res.json())
-        // .then((data) => {
-        //     setIsLoding(false)
-        //     if(data.response === 'success'){
-        //       console.log('Login Succes.')  
-        //       setUserLoggedIn()
-        //       Actions.dashboard();
-        //     }
-        //     else{
-        //       console.log('Login Failed => ', data.response)
-        //       setShowErrorMessage(data.response)  
-        //     }
-        // })
-        // .catch(err => {
-        //     setIsLoding(false)
-        //     console.log('Server/Network Error => ', err)
-        //     setShowErrorMessage(err.toString() + '\n Still Logging . . .')
-        //     // setTimeout(()=>{
-        //     //     setUserLoggedIn()
-        //     //     Actions.dashboard();
-        //     // }, 2000)
-        // }) 
     } 
 
-    const setUserLoggedIn = async () => {
+    const setUserLoggedIn = async (students, commonEvents) => {
         await AsyncStorage.setItem('isUserLoggedIn', 'true')
+        const dataToSave = {
+            students: [],
+            commonEvents: [],
+            events: []
+        }
+        students.forEach(student => {
+            dataToSave.students.push({
+                name: `${student.first_name} ${student.middle_name} ${student.last_name}` ,
+                prnNo: student.prn_no,
+                dateOfBirth: student.dob,
+                gender: student.gender,
+                address: student.address,
+                city: student.city,
+                pincode: student.pincode,
+                profileImage: student.photo,
+                fatherName: student.father_name,
+                motherName: student.mother_name,
+                fatherEmail: student.father_email,
+                motherEmail: student.mother_email,
+                preferenceContact: student.prefence_contact,
+                class: student.standard,
+                division: student.division,
+                rollNo: student.roll_no,
+                events: student.events
+            })
+        })
+        commonEvents.forEach(event => {
+            dataToSave.events.push({
+                id: event.non_interaction_attributes.non_display_attributes.id,
+                title: event.non_interaction_attributes.display_attributes.name,
+                description: event.non_interaction_attributes.display_attributes.description,
+                type: event.non_interaction_attributes.non_display_attributes.type.charAt(0).toUpperCase(),
+                to: 'all',
+                dateTime: event.non_interaction_attributes.display_attributes.date_time,
+                attatchment: event.non_interaction_attributes.display_attributes.url,
+                venue: event.non_interaction_attributes.display_attributes.venue
+
+            })
+        })
+
+
+        dateTime:"16 January 2020, 09:57 AM",
+        attatchment: null
+
+       await AsyncStorage.setItem('cachedData', JSON.stringify(dataToSave))
+
     }
 
     const setFocus = (focusEle) => {

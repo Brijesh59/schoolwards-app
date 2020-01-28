@@ -5,17 +5,15 @@ import {  Button, Icon } from 'native-base'
 
 import OnBoarding from '../screens/OnBoarding'
 import Login from '../screens/Login'
-import Dashboard from '../screens/Dashboard'
 import Details from '../screens/Details'
 import SplashScreen from '../screens/SplashScreen'
 import VerifyOTP from '../screens/VerifyOTP'
-import SideMenu from '../screens/SideMenu'
 import Home from '../screens/Home'
-import Profile from '../screens/Profile'
-import ContactUs from '../screens/ContactUs'
-import AboutUs from '../screens/AboutUs'
-import Calender from '../screens/Calender'
-import Setting from '../screens/Setting'
+import Profile from '../screens/navigation/Profile'
+import ContactUs from '../screens/navigation/ContactUs'
+import AboutUs from '../screens/navigation/AboutUs'
+import Calender from '../screens/navigation/Calender'
+import Setting from '../screens/navigation/Setting'
 
 const RouterComponent = () => {
     return (

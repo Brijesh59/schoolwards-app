@@ -14,7 +14,7 @@ export default function MessageDetails({details}) {
                                 {details.title}
                             </Text>
                             <Text style={styles.subTitle}>
-                                Send By: {details.sendBy}
+                                Send By - {details.sendBy}
                             </Text>
                         </Body>    
                     </Left>

@@ -26,7 +26,7 @@ export default function AboutUs() {
                 contentContainerStyle={styles.container}>
                 <Thumbnail 
                     large
-                    style={styles.thumbnail} source={ require('./assets/schoolLogo.png')} />
+                    style={styles.thumbnail} source={ require('../assets/schoolLogo.png')} />
                 <Text style={styles.name}>Swami Vivekanand School</Text>    
                 <Grid style={styles.grid}>
                     <Row style={{height:'auto'}}>
