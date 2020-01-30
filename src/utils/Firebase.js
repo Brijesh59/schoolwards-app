@@ -64,14 +64,6 @@ export default class FirebaseConfig{
         const payload = JSONData.non_interaction_attributes.display_attributes
         console.log('FCM Message Back/AppClosed: ', payload);
         // await AsyncStorage.setItem('isUserLoggedIn', 'false')
-      
-
-         // Customize notification here
-        const notificationTitle = payload.title;
-        const notificationOptions = {
-          body: 'Background Message body.',
-          // icon: '/firebase-logo.png'
-        };
 
         this.sendLocalNotification(payload);
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet, TouchableOpacity, FlatList, View, Alert} from 'react-native'
 import Modal from 'react-native-modal'
-import { Container, Content, Left, Button, Icon, Title, Body, Right, Header, Drawer, Text, Radio, ListItem } from 'native-base'
+import { Container, Content, Left, Button, Icon, Title, Body, Right, Header, Drawer, Text, Radio, ListItem, Grid, Col, CheckBox } from 'native-base'
 import { Actions }  from 'react-native-router-flux'
 import AsyncStorage from '@react-native-community/async-storage'
 import FeatherIcon  from 'react-native-vector-icons/Feather'
@@ -99,20 +99,32 @@ export default class Home extends React.Component{
                     dateTime:"20 February 2020, 09:57 AM"
                 }
             ],
-            events: []
+            events: [],
+            students: [],
+            selectedStudents: [],
+            selectedStudentsApplied: [],
+            types: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"],
+            selectedTypes: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"],
+            selectedTypesApplied: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"]
         }
     }
-    componentDidMount = async() => {
+    getCachedData = async()=>{
         const cachedData = await AsyncStorage.getItem('cachedData')
         const JSONData = JSON.parse(cachedData)
-        this.setState({events: JSONData.events})
+        const selectedStudents = JSONData.students.map((student => student.name))
+        const selectedStudentsApplied = JSONData.students.map((student => student.name))
+        this.setState({events: JSONData.events, students: JSONData.students, selectedStudents, selectedStudentsApplied })
+    }
+
+    componentDidMount = () => {
+        this.getCachedData()
     }
 
     closeDrawer = () => { this._drawer._root.close() }
     openDrawer  = () => { this._drawer._root.open()  } 
     
     filterList = () => {
-       this.setState({showFilterModal: false})
+      
     }
     
     sortListNewToOld = () => { 
@@ -139,6 +151,65 @@ export default class Home extends React.Component{
         }
     }
 
+    handleFilterApply = () => {
+        console.log("Apply Filter Modal")
+        this.setState({  
+            showFilterModal: false,
+            selectedStudentsApplied: [...this.state.selectedStudents],
+            selectedTypesApplied: [...this.state.selectedTypes]
+         })
+        console.log("State: ", this.state.selectedTypes)
+    }
+
+    handleFilterCancel = () => {
+        console.log("Close Filter Modal")
+        this.setState({  
+            showFilterModal: false,
+            selectedStudents: [...this.state.selectedStudentsApplied],
+            selectedTypes: [...this.state.selectedTypesApplied]
+         })
+        console.log("State: ", this.state.selectedTypes)
+    }
+
+    handleFilterStudentCheckBox = (prnNo) => {
+        const selectedStudents = this.state.selectedStudents
+        const index = selectedStudents.indexOf(prnNo)
+        if( index != -1 ){ //Remove Student from selected list
+            const selectedStudents = [...this.state.selectedStudents]
+            selectedStudents.splice(index, 1)
+            this.setState({selectedStudents})
+        }
+        else{
+            const selectedStudents = [...this.state.selectedStudents]
+            selectedStudents.push(prnNo)
+            this.setState({selectedStudents})
+        }
+        console.log(this.state.selectedStudents)
+    }
+
+    handleFilterTypeCheckBox = (type) => {
+        const selectedTypes= this.state.selectedTypes
+        const index = selectedTypes.indexOf(type)
+        if( index != -1 ){ //Remove Student from selected list
+            const selectedTypes = [...this.state.selectedTypes]
+            selectedTypes.splice(index, 1)
+            this.setState({selectedTypes})
+        }
+        else{
+            const selectedTypes = [...this.state.selectedTypes]
+            selectedTypes.push(type)
+            this.setState({selectedTypes})
+        }
+        console.log(this.state.selectedTypes)
+    }
+
+    handleClearAll = () => {
+        this.setState({
+            selectedTypes: [],
+            selectedStudents: []
+        })
+    }
+
     handleLogout = async() => {
         Alert.alert(
             'Attention',
@@ -161,6 +232,12 @@ export default class Home extends React.Component{
     }
 
     render(){
+
+        const filteredEvents = this.state.events
+                                    .filter(event => this.state.selectedTypesApplied.indexOf(event.type)!=-1)
+                                    // .filter(event => this.state.selectedStudentsApplied.indexOf(event.studentName)!=-1)
+        
+        console.log("Filtered Events: ", filteredEvents)
         const header = 
             <Header 
                 style={styles.header}           
@@ -202,7 +279,7 @@ export default class Home extends React.Component{
 
         const mainContent = this.state.events && 
             <FlatList 
-                data={this.state.events}
+                data={filteredEvents }
                 renderItem={
                     card => (
                         <TouchableOpacity
@@ -228,62 +305,161 @@ export default class Home extends React.Component{
             />
         
         const sortModal = 
-               <View style={{flex: 1}}>
+            <View style={{flex: 1}}>
                     <Modal 
                         isVisible={this.state.showSortModal}
                         animationIn='zoomIn'
                         animationOut="zoomOut"
                         animationInTiming={400}
                         animationOutTiming={400}
+                         backdropTransitionOutTiming={0}
                         onBackdropPress={()=>this.setState({showSortModal: false})}>
                         <View style={styles.modalContent}>     
-                        {/* <Text>
-                            <MaterialIcon 
-                            name="sort-descending" 
-                            color="#2C96EA"
-                            size={24}
-                            /> 
-                        </Text> */}
-                        <Text style={{fontSize: 22, color: '#2C96EA' }}>Sort</Text>
-                        <View style={{width: '90%'}}>
-                            <ListItem onPress={this.sortListNewToOld} style={{alignItems:'center'}}>
-                                <Left>
-                                    <Text>New to Old</Text>
-                                </Left>
-                                <Left>
-                                    <Radio 
-                                        onPress={this.sortListNewToOld}
-                                        selected={this.state.sortNewtoOld}
-                                        selectedColor="#2C96EA"
-                                    />
-                                </Left>
-                            </ListItem>  
-                            <ListItem onPress={this.sortListOldToNew}>
+                            <View style={{
+                                flexDirection: 'row',
+                                padding: 15,
+                                alignItems: 'center'
+                            }}>
+                                <MaterialIcon 
+                                name="sort-descending" 
+                                color="#2C96EA"
+                                size={24}
+                                /> 
+                                <Text style={{fontSize: 22, color: '#2C96EA' }}>Sort</Text>
+                            </View>
+                        
+                            <View style={{width: '90%'}}>
+                                <ListItem onPress={this.sortListNewToOld} style={{alignItems:'center'}}>
                                     <Left>
-                                        <Text>Old to New</Text>
+                                        <Text>New to Old</Text>
                                     </Left>
                                     <Left>
                                         <Radio 
-                                            onPress={this.sortListOldToNew}
-                                            selected={this.state.sortOldToNew}
+                                            onPress={this.sortListNewToOld}
+                                            selected={this.state.sortNewtoOld}
                                             selectedColor="#2C96EA"
                                         />
                                     </Left>
-                            </ListItem> 
-                        </View>
-                        <CustomButton 
-                            title="Ok"
-                            onPressFunction={this.handleSort}
-                            style={{width: '40%', marginTop: 10}}
-                        />     
+                                </ListItem>  
+                                <ListItem onPress={this.sortListOldToNew}>
+                                        <Left>
+                                            <Text>Old to New</Text>
+                                        </Left>
+                                        <Left>
+                                            <Radio 
+                                                onPress={this.sortListOldToNew}
+                                                selected={this.state.sortOldToNew}
+                                                selectedColor="#2C96EA"
+                                            />
+                                        </Left>
+                                </ListItem> 
+                            </View>
+                            
+                            <CustomButton 
+                                title="Ok"
+                                onPressFunction={this.handleSort}
+                                style={{width: '40%', marginTop: 10}}
+                            />     
                         </View>
                     </Modal>
                </View>
         
         const filterModal = 
-                <Modal>
-                    
+            <View style={{flex: 1}}>
+                <Modal 
+                    isVisible={this.state.showFilterModal}
+                    animationIn='zoomIn'
+                    animationOut="zoomOut"
+                    animationInTiming={400}
+                    animationOutTiming={400}
+                    backdropTransitionOutTiming={0} // Remove flicker
+                    onBackdropPress={this.handleFilterCancel}>
+                    <View style={styles.modalContent2}>     
+                       
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            padding: 15
+                        }}>
+                            <Text style={{fontSize: 18, color: '#2C96EA' }}>Filter</Text> 
+                            <TouchableOpacity onPress={this.handleClearAll}>
+                                <Text style={{fontSize: 18, color: '#2C96EA' }}>Clear all</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={{fontSize: 18, color: '#2C96EA', paddingLeft:15, marginBottom: 10 }}>
+                            Children
+                        </Text> 
+
+                        {/* Children List */}
+                        <View >
+                            {
+                                this.state.students.map(student=> (
+                                    <View style={{
+                                        width: '80%',
+                                        marginLeft: 15,
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        padding: 5
+                                    }}
+                                    key={student.name}>
+                                        <Text style={{color: '#707070', fontSize:16}}>{student.name}</Text>
+                                        <CheckBox 
+                                            checked={this.state.selectedStudents.indexOf(student.name)!=-1 ? true : false}
+                                            onPress={()=> this.handleFilterStudentCheckBox(student.name)}
+                                            />
+                                    </View> 
+                                ))
+                            }
+                        </View>
+ 
+                        <Text 
+                            style={{fontSize: 18, color: '#2C96EA', paddingLeft:15, marginBottom: 10, marginTop:5 }}>
+                            Type
+                        </Text> 
+                        <View >
+                            {
+                                this.state.types.map((type=> (
+                                    <View style={{
+                                        width: '80%',
+                                        marginLeft: 15,
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        padding: 5
+                                    }}
+                                    key={type}>
+                                        <Text style={{color: '#707070', fontSize:16}}>{type}</Text>
+                                        <CheckBox 
+                                            checked={this.state.selectedTypes.indexOf(type)!=-1 ? true : false}
+                                            onPress={()=>this.handleFilterTypeCheckBox(type)} />
+                                    </View>    
+                                )))
+                            }
+                        </View>
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-around',
+                            padding: 20
+                        }}> 
+                            <CustomButton 
+                                title="Cancel"
+                                onPressFunction={this.handleFilterCancel}
+                                style={{
+                                    width: '40%',
+                                    borderColor: '#2C96EA',
+                                    borderWidth: 2,
+                                    borderRadius: 5,
+                                    backgroundColor: 'white'
+                                }}
+                            />  
+                            <CustomButton 
+                                title="Apply"
+                                onPressFunction={this.handleFilterApply}
+                                style={{width: '40%'}}
+                            />      
+                        </View>
+                    </View>
                 </Modal>
+            </View>
         
         return (
             <Container>
@@ -340,10 +516,22 @@ const styles = StyleSheet.create({
     modalContent:{
         backgroundColor: 'white',
         width: '90%',
+        height: 'auto',
         marginLeft: '5%',
         alignItems: 'center',
-        padding: 10,
+        // paddingTop: 10,
         borderRadius: 5
+    },
+    modalContent2:{
+        backgroundColor: 'white',
+        width: '90%',
+        height: 'auto',
+        marginLeft: '5%',
+        // paddingTop: 10,
+        borderRadius: 5
+    },
+    center: {
+        alignItems: 'center',
     }
 });
   

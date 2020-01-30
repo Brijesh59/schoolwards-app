@@ -6,10 +6,14 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export default function SideBar() {
     const [students, setStudents] = useState([])
-    useEffect(async() => {
-        const cachedData = await AsyncStorage.getItem('cachedData')
-        const JSONData = JSON.parse(cachedData)
-        setStudents(JSONData.students)
+
+    useEffect(() => {
+        const getCachedData = async()=>{
+            const cachedData = await AsyncStorage.getItem('cachedData')
+            const JSONData = JSON.parse(cachedData)
+            setStudents(JSONData.students)
+        }
+        getCachedData()
     }, [])
     return (
         <Container style={styles.container}>
