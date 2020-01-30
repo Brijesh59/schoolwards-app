@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {View, Text, StyleSheet} from 'react-native'
-import { Actions } from 'react-native-router-flux';
+import { Actions }  from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
-import DeviceInfo from 'react-native-device-info';
-import axios from 'axios'
+import DeviceInfo   from 'react-native-device-info';
+import axios        from 'axios'
 
 import ActivityLoader from '../components/common/ActivityLoader'
-import APIs from '../../utils/api'
-import app_config from '../../utils/config'
-import CustomButton from '../components/common/CustomButton'
-import Input from '../components/common/Input'
+import APIs           from '../utils/api'
+import app_config     from '../utils/config'
+import CustomButton   from '../components/common/CustomButton'
+import Input          from '../components/common/Input'
 
 
 const VerifyOTP = (props) => {
@@ -36,15 +36,14 @@ const VerifyOTP = (props) => {
         let fcmToken = null
         try {
             fcmToken = await AsyncStorage.getItem('fcmToken')
-        } catch (error) {
-            console.log('Error in fetching fcmToken')
-            return fcmToken
+            setFcmToken(fcmToken)
+        } 
+        catch (error) {
+            console.log('Error in fetching fcmToken')  
         }
-       
-        return fcmToken
     }
-    useEffect(async() => {
-        const fcmToken = await getToken()
+    useEffect(() => {
+        getToken()
         console.log("FCMToken: ", fcmToken)
         setFcmToken(fcmToken)
         firstDigitRef.current.focus();
@@ -93,9 +92,9 @@ const VerifyOTP = (props) => {
         .then(async(res) => {
             setIsLoding(false)
             const response = res.data.response
-            console.log("Response: " , res.data.common_events[0])
+            console.log("Response: " , res.data)
             if(response === 'success'){
-                console.log('Login Succes.')  
+                console.log('Login Success.')  
                 await setUserLoggedIn(res.data.students, res.data.common_events)
                 Actions.dashboard();
             }
@@ -116,16 +115,17 @@ const VerifyOTP = (props) => {
         await AsyncStorage.setItem('isUserLoggedIn', 'true')
         const dataToSave = {
             students: [],
-            commonEvents: [],
             events: []
         }
+
+        // Saving Students details
         students.forEach(student => {
             dataToSave.students.push({
                 name: `${student.first_name} ${student.middle_name} ${student.last_name}` ,
                 prnNo: student.prn_no,
                 dateOfBirth: student.dob,
                 gender: student.gender,
-                address: student.address,
+                address: `${student.address}, ${student.city}, ${student.pincode}`,
                 city: student.city,
                 pincode: student.pincode,
                 profileImage: student.photo,
@@ -133,27 +133,54 @@ const VerifyOTP = (props) => {
                 motherName: student.mother_name,
                 fatherEmail: student.father_email,
                 motherEmail: student.mother_email,
+                fatherMobile: student.father_mobile,
+                motherMobile: student.mother_mobile,
                 preferenceContact: student.prefence_contact,
                 class: student.standard,
                 division: student.division,
-                rollNo: student.roll_no,
-                events: student.events
+                rollNo: student.roll_no
             })
         })
-        commonEvents.forEach(event => {
-            dataToSave.events.push({
-                id: event.non_interaction_attributes.non_display_attributes.id,
-                title: event.non_interaction_attributes.display_attributes.name,
-                description: event.non_interaction_attributes.display_attributes.description,
-                type: event.non_interaction_attributes.non_display_attributes.type.charAt(0).toUpperCase(),
-                to: 'all',
-                dateTime: event.non_interaction_attributes.display_attributes.date_time,
-                attatchment: event.non_interaction_attributes.display_attributes.url,
-                venue: event.non_interaction_attributes.display_attributes.venue
 
+        // Saving Individual Student events
+        students.forEach(student => {
+            const studentId = student.prn_no
+            const studentName = student.first_name
+            student.events.forEach(event => {
+                const NIA_NDA = event.non_interaction_attributes.non_display_attributes
+                const NIA_DA  = event.non_interaction_attributes.display_attributes
+                dataToSave.events.push({
+                    id: NIA_NDA.id,
+                    title: NIA_DA.name,
+                    description: NIA_DA.description,
+                    type: NIA_DA.series,
+                    to: 'individual',
+                    dateTime: NIA_DA.date_time,
+                    attatchment: NIA_DA.url != "" ? NIA_DA.url : null,
+                    venue: NIA_DA.venue,
+                    studentName: studentName,
+                    studentId: studentId
+                })
             })
         })
-        
+
+        // Saving Common events
+        commonEvents.forEach(event => {
+            const NIA_NDA = event.non_interaction_attributes.non_display_attributes
+            const NIA_DA  = event.non_interaction_attributes.display_attributes
+            dataToSave.events.push({
+                id: NIA_NDA.id,
+                title: NIA_DA.name,
+                description: NIA_DA.description,
+                type: NIA_DA.series,
+                to: 'all',
+                dateTime: NIA_DA.date_time,
+                attatchment: NIA_DA.url != "" ? NIA_DA.url : null,
+                venue: NIA_DA.venue
+            })
+        })
+
+
        await AsyncStorage.setItem('cachedData', JSON.stringify(dataToSave))
 
     }
@@ -278,6 +305,6 @@ const styles = StyleSheet.create({
       borderColor: '#f44336',
       borderWidth: 1
     }
-});
+})
 
-export default VerifyOTP;
+export default VerifyOTP

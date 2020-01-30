@@ -1,15 +1,15 @@
 import React from 'react'
 import {StyleSheet, TouchableOpacity, FlatList, View, Alert} from 'react-native'
 import Modal from 'react-native-modal'
-import { Container, Content, Left, Button, Icon, Title, Body, Right, Header, Drawer, Text, Radio, List, ListItem, Grid, Row, Col } from 'native-base'
-import { Actions } from 'react-native-router-flux'
+import { Container, Content, Left, Button, Icon, Title, Body, Right, Header, Drawer, Text, Radio, ListItem } from 'native-base'
+import { Actions }  from 'react-native-router-flux'
 import AsyncStorage from '@react-native-community/async-storage'
-import FeatherIcon from 'react-native-vector-icons/Feather'
+import FeatherIcon  from 'react-native-vector-icons/Feather'
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
-import AntDesign from 'react-native-vector-icons/AntDesign'
+import AntDesign    from 'react-native-vector-icons/AntDesign'
 
-import CustomCard from '../components/common/CustomCard'
-import SideBar from './SideBar'
+import CustomCard   from '../components/common/CustomCard'
+import SideBar      from './SideBar'
 import CustomButton from '../components/common/CustomButton'
 
 
@@ -103,7 +103,9 @@ export default class Home extends React.Component{
         }
     }
     componentDidMount = async() => {
-
+        const cachedData = await AsyncStorage.getItem('cachedData')
+        const JSONData = JSON.parse(cachedData)
+        this.setState({events: JSONData.events})
     }
 
     closeDrawer = () => { this._drawer._root.close() }
@@ -119,12 +121,14 @@ export default class Home extends React.Component{
             sortOldToNew: false,
         })   
     }
+
     sortListOldToNew = () => { 
         this.setState({
             sortNewtoOld: false,
             sortOldToNew: true,
         })   
     }
+
     handleSort = () => {
         this.setState({showSortModal: false})
         if(this.state.sortNewtoOld){
@@ -196,9 +200,9 @@ export default class Home extends React.Component{
                 </Right>
             </Header>
 
-        const mainContent = 
+        const mainContent = this.state.events && 
             <FlatList 
-                data={this.state.cards}
+                data={this.state.events}
                 renderItem={
                     card => (
                         <TouchableOpacity
@@ -271,8 +275,7 @@ export default class Home extends React.Component{
                             title="Ok"
                             onPressFunction={this.handleSort}
                             style={{width: '40%', marginTop: 10}}
-                        />
-                              
+                        />     
                         </View>
                     </Modal>
                </View>
@@ -298,7 +301,7 @@ export default class Home extends React.Component{
                             { filterModal }
                         </Content>
                     </Container>
-            </Drawer> 
+                </Drawer> 
             </Container>
         )
     }

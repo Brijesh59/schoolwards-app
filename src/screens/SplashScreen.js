@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import AsyncStorage from '@react-native-community/async-storage';
+import React, { Component } from 'react'
+import { View, StyleSheet, Image } from 'react-native'
+import { Actions } from 'react-native-router-flux'
+import AsyncStorage from '@react-native-community/async-storage'
 import * as Progress from 'react-native-progress'
 
 class SplashScreen extends Component {
@@ -50,7 +50,7 @@ class SplashScreen extends Component {
                     color='#F8C732' 
                     borderWidth={0} />
             </View>
-        );
+        )
     }
 }
 
@@ -66,6 +66,6 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       margin: 10,
     }
-});
+})
 
-export default SplashScreen;
+export default SplashScreen

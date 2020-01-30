@@ -1,28 +1,14 @@
 import React from 'react'
 import {StyleSheet} from 'react-native'
-import { Container, Content, Left, Icon, Title, Header, Button, Body} from 'native-base'
-import { Actions } from 'react-native-router-flux';
-
+import { Container, Content} from 'native-base'
+import CustomHeader from '../../components/common/CustomHeader'
 
 export default function Setting() {
     return (
         <Container> 
-            <Header style={styles.header}   androidStatusBarColor="#3295E9" 
-            iosBarStyle="light-content">
-                <Left style={{maxWidth:60, marginLeft: 8}}>
-                    <Button 
-                        transparent 
-                        onPress={()=>Actions.pop()}>
-                        <Icon name='arrow-back' style={styles.iconStyle}/>
-                    </Button>
-                </Left>
-                <Body style={{alignItems: 'flex-start'}}>
-                    <Title style={styles.headerTitle}>Settings</Title>
-                </Body> 
-            </Header>
+            <CustomHeader title="Settings" />
             <Content 
-                contentContainerStyle={styles.container}>
-                
+                contentContainerStyle={styles.container}> 
             </Content>
         </Container>
     )
@@ -33,15 +19,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-    },
-    header:{
-        backgroundColor: '#2C96EA'
-    },
-    headerTitle:{
-        color: 'white', 
-    },
-    iconStyle:{
-        color: 'white',
     },
     name:{
         fontSize:22,

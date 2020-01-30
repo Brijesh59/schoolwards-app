@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, BackHandler, StyleSheet } from 'react-native';
 import ActivityLoader from '../components/common/ActivityLoader'
-import APIs from '../../utils/api'
+import APIs from '../utils/api'
 import { Actions } from 'react-native-router-flux';
 import CustomButton from '../components/common/CustomButton';
-import app_config from '../../utils/config'
+import app_config from '../utils/config'
 
 class Login extends Component {
 

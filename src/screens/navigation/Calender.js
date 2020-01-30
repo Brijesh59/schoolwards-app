@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import {StyleSheet, View, ScrollView, Platform, Linking, TouchableOpacity, Dimensions} from 'react-native'
-import { Container, Content, Left, Icon, Title, Header, Button, Body, Text, Grid, Col, Card, CardItem} from 'native-base'
-import { Actions } from 'react-native-router-flux';
-import {Calendar, Agenda} from 'react-native-calendars';
+import {StyleSheet, View, ScrollView, Dimensions} from 'react-native'
+import { Container, Content, Button, Body, Text, Card, CardItem} from 'native-base'
+import {Calendar} from 'react-native-calendars';
+import CustomHeader from '../../components/common/CustomHeader'
 
 export default function CalenderScreen() {
     const [selectedStudent, setSelectedStudent] = useState(0)
@@ -10,7 +10,6 @@ export default function CalenderScreen() {
     const [events, setEvents] = useState([])
     const screenWidth = Dimensions.get('window').width
     const optimumLayoutWidth = screenWidth - screenWidth/10
-    let students = []
     
     useEffect( () => {
         students = fetchStudentDetails()
@@ -67,19 +66,7 @@ export default function CalenderScreen() {
 
     return (
         <Container> 
-            <Header style={styles.header}  androidStatusBarColor="#3295E9" 
-            iosBarStyle="light-content">
-                <Left style={{maxWidth:60, marginLeft: 8}}>
-                    <Button 
-                        transparent 
-                        onPress={()=>Actions.pop()}>
-                        <Icon name='arrow-back' style={styles.iconStyle} />
-                    </Button>
-                </Left>
-                <Body style={{alignItems: 'flex-start'}} >
-                    <Title style={styles.headerTitle} >Calender</Title>
-                </Body> 
-            </Header>
+            <CustomHeader title="Calender" />
             <ScrollView>
             <Content 
                 contentContainerStyle={styles.container}>
@@ -222,16 +209,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-    },
-    header:{
-        backgroundColor: '#2C96EA',
-        color: 'white'
-    },
-    headerTitle:{
-        color: 'white', 
-    },
-    iconStyle:{
-        color: 'white',
     },
     selectedStudent:{
         backgroundColor: '#2C96EA',

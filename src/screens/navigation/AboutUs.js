@@ -1,27 +1,14 @@
 import React from 'react'
 import {StyleSheet, ScrollView} from 'react-native'
-import { Text, Container, Content, Left, Icon, Title, Thumbnail, Header, Button, Body, Grid, Col, Row} from 'native-base'
-import { Actions } from 'react-native-router-flux';
+import { Text, Container, Content, Thumbnail, Grid, Col, Row} from 'native-base'
+import CustomHeader from '../../components/common/CustomHeader';
 
 export default function AboutUs() {
     return (
         <Container> 
-            <Header style={styles.header}   androidStatusBarColor="#3295E9" 
-            iosBarStyle="light-content">
-                <Left style={{maxWidth:60, marginLeft: 8}}>
-                    <Button 
-                        transparent 
-                        onPress={()=>Actions.pop()}>
-                        <Icon name='arrow-back'  style={styles.iconStyle}/>
-                    </Button>
-                </Left>
-                <Body style={{alignItems: 'flex-start'}}>
-                    <Title style={styles.headerTitle} >About Us</Title>
-                </Body> 
-            </Header>
+            <CustomHeader title="About Us" />
             <ScrollView>
 
-           
             <Content 
                 contentContainerStyle={styles.container}>
                 <Thumbnail 
@@ -57,15 +44,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         //marginTop: 150
-    },
-    header:{
-        backgroundColor: '#2C96EA'
-    },
-    headerTitle:{
-        color: 'white', 
-    },
-    iconStyle:{
-        color: 'white',
     },
     name:{
         fontSize:22,

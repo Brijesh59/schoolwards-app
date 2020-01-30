@@ -1,25 +1,15 @@
 import React from 'react'
 import {StyleSheet} from 'react-native'
-import { Text, Container, Content, Left, Icon, Title, List, ListItem, Thumbnail, Header, Button, Body, Grid, Col, Row} from 'native-base'
-import { Actions } from 'react-native-router-flux';
+import { Text, Container, Content, Thumbnail, Grid, Col, Row} from 'native-base'
 import CustomButton from '../../components/common/CustomButton'
+import CustomHeader from '../../components/common/CustomHeader';
 
 export default function Profile({student}) {
+    console.log("Profile: ", student)
     return (
         <Container> 
-            <Header style={styles.header}   androidStatusBarColor="#3295E9" 
-            iosBarStyle="light-content">
-                <Left style={{maxWidth:60, marginLeft: 8}}>
-                    <Button 
-                        transparent 
-                        onPress={()=>Actions.pop()}>
-                        <Icon name='arrow-back' style={styles.iconStyle}/>
-                    </Button>
-                </Left>
-                <Body style={{alignItems: 'flex-start'}}>
-                    <Title style={styles.headerTitle}>Children</Title>
-                </Body> 
-            </Header>
+            <CustomHeader 
+                title="Children" />
             <Content 
                 contentContainerStyle={styles.container}>
                 <Thumbnail 
@@ -129,7 +119,6 @@ export default function Profile({student}) {
                         <Col>
                             <Text 
                                 style={styles.key}>
-                                
                             </Text>
                         </Col>
                         <Col> 
@@ -184,15 +173,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         //marginTop: 150
       },
-    header:{
-        backgroundColor: '#2C96EA'
-    },
-    headerTitle:{
-        color: 'white', 
-    },
-    iconStyle:{
-        color: 'white',
-    },
     name:{
         fontSize:20,
         padding: 10,

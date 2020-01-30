@@ -1,29 +1,26 @@
 
-import React, {Component} from 'react';
-import {StyleSheet, StatusBar} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import Router from './Router';
-import FirebaseConfig from '../../utils/Firebase'
+import React, {Component} from 'react'
+import {StatusBar} from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
+import Router from './Router'
+import FirebaseConfig from '../utils/Firebase'
 
-class App extends Component{
+export default class App extends Component{
 
   constructor(props){
     super(props)
     this.firebase = new FirebaseConfig()
   }
+  
   componentDidMount = async() => {
     this.firebase.checkPermission();
-    this.firebase.createNotificationListeners();
-    console.log("isUserLoggedIn: ", await AsyncStorage.getItem('isUserLoggedIn'))
+    this.firebase.createForegroundNotificationListeners();
+    console.log("IsUserLoggedIn: ", await AsyncStorage.getItem('isUserLoggedIn'))
   }
 
-  // componentWillUnmount() {
-  //   this.firebase.notificationListener;
-  //   this.firebase.notificationOpenedListener;
-  // }
+  componentWillUnmount() {}
 
   render(){
-
     return (
       <> 
         <StatusBar 
@@ -34,27 +31,5 @@ class App extends Component{
     )
   }
 }  
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    marginTop:150
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-export default App;
 
 

@@ -5,9 +5,9 @@
 import {AppRegistry} from 'react-native';
 import App from './src/components/App';
 import {name as appName} from './app.json';
-import FirebaseConfig from './utils/Firebase'
+import FirebaseConfig from './src/utils/Firebase'
 let firebase = new FirebaseConfig()
-firebase.createBackgroundSync();
+firebase.createBackgroundNotificationListeners(); //Headless task
 
 AppRegistry.registerComponent(appName, () => App);
 

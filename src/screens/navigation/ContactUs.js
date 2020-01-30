@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet, Platform, Linking, TouchableOpacity} from 'react-native'
-import { Text, Container, Content, Left, Icon, Title, List, ListItem, Thumbnail, Header, Button, Body, Grid, Col, Row} from 'native-base'
-import { Actions } from 'react-native-router-flux';
+import { Text, Container, Content, Thumbnail, Grid, Col, Row} from 'native-base'
+import CustomHeader from '../../components/common/CustomHeader';
 
 
 export default function ContactUs() {
@@ -18,19 +18,7 @@ export default function ContactUs() {
     }
     return (
         <Container> 
-            <Header style={styles.header}   androidStatusBarColor="#3295E9" 
-            iosBarStyle="light-content">
-                <Left style={{maxWidth:60, marginLeft: 8}}>
-                    <Button 
-                        transparent 
-                        onPress={()=>Actions.pop()}>
-                        <Icon name='arrow-back' style={styles.iconStyle}/>
-                    </Button>
-                </Left>
-                <Body style={{alignItems: 'flex-start'}}>
-                    <Title style={styles.headerTitle} >Contact Us</Title>
-                </Body> 
-            </Header>
+            <CustomHeader title="Contact Us" />
             <Content 
                 contentContainerStyle={styles.container}>
                 <Thumbnail 
@@ -81,15 +69,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         //marginTop: 150
-    },
-    header:{
-        backgroundColor: '#2C96EA'
-    },
-    headerTitle:{
-        color: 'white', 
-    },
-    iconStyle:{
-        color: 'white',
     },
     name:{
         fontSize:22,
