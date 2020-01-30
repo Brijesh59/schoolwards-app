@@ -210,6 +210,24 @@ export default class Home extends React.Component{
         })
     }
 
+    handleSort = () => {
+        const sortBy = this.state.sortNewtoOld ? 'newToOld' : 'oldToNew'
+        let events = [...this.state.events]
+        switch(sortBy){
+            case 'oldToNew': 
+                events = [...this.state.events]
+                                .sort((eventA, eventB) => eventA.dateTime > eventB.dateTime)
+                this.setState({events, showSortModal: false}) 
+                break;
+            case 'newToOld':
+                events = [...this.state.events]
+                                .sort((eventA, eventB) => eventA.dateTime < eventB.dateTime)
+                this.setState({events, showSortModal: false})
+                break;
+        }
+
+    }
+    
     handleLogout = async() => {
         Alert.alert(
             'Attention',
@@ -236,6 +254,7 @@ export default class Home extends React.Component{
         const filteredEvents = this.state.events
                                     .filter(event => this.state.selectedTypesApplied.indexOf(event.type)!=-1)
                                     // .filter(event => this.state.selectedStudentsApplied.indexOf(event.studentName)!=-1)
+                                    
         
         console.log("Filtered Events: ", filteredEvents)
         const header = 
@@ -359,6 +378,7 @@ export default class Home extends React.Component{
                                 title="Ok"
                                 onPressFunction={this.handleSort}
                                 style={{width: '40%', marginTop: 10}}
+
                             />     
                         </View>
                     </Modal>
