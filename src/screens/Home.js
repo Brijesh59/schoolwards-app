@@ -1,17 +1,14 @@
 import React from 'react'
 import {StyleSheet, TouchableOpacity, FlatList, View, Alert} from 'react-native'
 import Modal from 'react-native-modal'
-import { Container, Content, Left, Button, Icon, Title, Body, Right, Header, Drawer, Text, Radio, ListItem, Grid, Col, CheckBox } from 'native-base'
+import { Container, Content, Left, Button, Title, Body, Right, Header, Drawer, Text, Radio, ListItem, CheckBox } from 'native-base'
 import { Actions }  from 'react-native-router-flux'
 import AsyncStorage from '@react-native-community/async-storage'
-import FeatherIcon  from 'react-native-vector-icons/Feather'
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
-import AntDesign    from 'react-native-vector-icons/AntDesign'
 
 import CustomCard   from '../components/common/CustomCard'
 import SideBar      from './SideBar'
 import CustomButton from '../components/common/CustomButton'
-
+import {FilterIcon, SortIcon, LogoutIcon, MenuIcon} from '../components/common/Icons'
 
 export default class Home extends React.Component{
     constructor(props){
@@ -264,7 +261,7 @@ export default class Home extends React.Component{
                 iosBarStyle="light-content">
                 <Left style={{maxWidth:60, marginLeft: 8}}>
                     <Button transparent onPress={this.openDrawer}>
-                        <Icon name='menu' style={styles.iconStyle} />
+                        <MenuIcon style={{color:"white"}} />
                     </Button>
                 </Left>
                 <Body style={{alignItems: 'flex-start'}}>
@@ -272,26 +269,17 @@ export default class Home extends React.Component{
                 </Body>
                 <Right style={{maxWidth:50}} >
                     <Button transparent onPress={()=>this.setState({showFilterModal: true})} >
-                        <FeatherIcon 
-                            name="filter" 
-                            color="white"
-                            size={24} />
+                        <FilterIcon style={{color:"white"}} />
                     </Button>
                 </Right>
                 <Right style={{maxWidth:50}} >
                     <Button transparent onPress={()=>this.setState({showSortModal: true})} >
-                        <MaterialIcon 
-                            name="sort-descending" 
-                            color="white"
-                            size={24} />
+                        <SortIcon style={{color:"white"}} />
                     </Button>
                 </Right>
                 <Right style={{maxWidth:50}}>
                     <Button transparent onPress={this.handleLogout} >
-                        <AntDesign 
-                            name='logout'   
-                            color="white"
-                            size={22}/>
+                        <LogoutIcon style={{color:"white"}} />
                     </Button>
                 </Right>
             </Header>
@@ -339,11 +327,7 @@ export default class Home extends React.Component{
                                 padding: 15,
                                 alignItems: 'center'
                             }}>
-                                <MaterialIcon 
-                                name="sort-descending" 
-                                color="#2C96EA"
-                                size={24}
-                                /> 
+                                <SortIcon style={{marginRight:5}}/>
                                 <Text style={{fontSize: 22, color: '#2C96EA' }}>Sort</Text>
                             </View>
                         
@@ -377,7 +361,7 @@ export default class Home extends React.Component{
                             <CustomButton 
                                 title="Ok"
                                 onPressFunction={this.handleSort}
-                                style={{width: '40%', marginTop: 10}}
+                                style={{width: '40%', marginTop: 10, marginBottom: 10}}
 
                             />     
                         </View>
@@ -513,9 +497,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#2C96EA',
     },
     headerTitle:{
-        color: 'white',
-    },
-    iconStyle:{
         color: 'white',
     },
     content:{

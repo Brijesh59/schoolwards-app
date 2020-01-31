@@ -1,23 +1,24 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { Card, CardItem, Left, Text, Icon, Right, Body } from 'native-base'
+import { Card, CardItem, Left, Text, Right, Body } from 'native-base'
+import {AnnouncementIcon, CalendarIcon, HomeworkIcon, MessageIcon, NewsIcon, TimetableIcon, ContactIcon, ContactsIcon, TagIcon} from './Icons'
 
 export default function CustomCard({title, type, description, to, studentName, dateTime, onCardPressed}) {
 
     const getIcon = (iconType) => {
         switch(iconType.toLowerCase()){
             case 'announcement': 
-                return 'megaphone'
+                return <AnnouncementIcon />
             case 'event': 
-                return 'calendar'
+                return <CalendarIcon />
             case 'homework': 
-                return 'journal'
+                return <HomeworkIcon />
             case 'message':
-                return 'mail'
+                return <MessageIcon />
             case 'news':
-                return 'cellular'  
+                return <NewsIcon />  
             case 'timetable':
-                return 'list-box'          
+                return <TimetableIcon />          
             default: 
                 return ''
         }
@@ -33,7 +34,7 @@ export default function CustomCard({title, type, description, to, studentName, d
                         </Text>
                     </Left>
                     <Right>
-                        <Icon name={ getIcon(type) } style={styles.iconStyle} />
+                        { getIcon(type) }
                     </Right>
                 </CardItem>
                 <CardItem onPress={()=>onCardPressed()}>
@@ -45,11 +46,7 @@ export default function CustomCard({title, type, description, to, studentName, d
                 </CardItem>
                 <CardItem>
                     <Left>
-                        <Icon name={
-                            to === "all" ?
-                            'contacts' :
-                            'contact'
-                        } style={styles.iconStyle} />
+                        { to === "all" ? <ContactsIcon /> : <ContactIcon /> }
                         <Text style={styles.normal}>
                             {studentName}
                         </Text>
@@ -57,7 +54,7 @@ export default function CustomCard({title, type, description, to, studentName, d
                 </CardItem>
                 <CardItem footer bordered>
                     <Left>
-                        <Icon name='pricetag' style={styles.iconStyle} />
+                        <TagIcon />
                         <Text style={styles.normal}>
                             {type}
                         </Text>
@@ -92,8 +89,4 @@ const styles = StyleSheet.create({
         fontSize: 14,
         width: '100%'
     },
-    iconStyle:{
-        color: '#2C96EA',
-        fontSize: 22
-    }
 });

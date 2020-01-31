@@ -15,7 +15,7 @@ export default function Profile({student}) {
                 <Thumbnail 
                     large
                     style={styles.thumbnail} source={{uri: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'}} />
-<Text style={styles.name}>{student.name}</Text>    
+                <Text style={styles.name}>{student.name}</Text>    
                 <Grid style={styles.grid}>
                     <Row style={styles.row}>
                         <Col>
@@ -161,7 +161,7 @@ export default function Profile({student}) {
                 <CustomButton 
                     title="Fee Details" 
                     onPressFunction={()=>console.log('Fee Details')}
-                    style={{marginBottom:20, width:'50%'}}/>
+                    style={{marginTop: 10,marginBottom:20, width:'50%'}}/>
             </Content>
         </Container>
     )

@@ -9,8 +9,6 @@ import MessageDetails      from './details/MessageDetails'
 import NewsDetails         from './details/NewsDetails'
 import TimetableDetails    from './details/TimetableDetails'
 import CustomHeader        from '../components/common/CustomHeader'
-import { Actions } from 'react-native-router-flux'
-
 
 export default function Details({ details}) {
     const showDetails = () => {
@@ -39,7 +37,7 @@ export default function Details({ details}) {
             />
             <Content 
                 contentContainerStyle={styles.container}>
-                {showDetails()}
+                { showDetails() }
             </Content>
         </Container>
     )

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import {StyleSheet, View, ScrollView} from 'react-native'
-import { Text, Container, Content, Left, Icon, List, ListItem, Thumbnail} from 'native-base'
+import { Text, Container, Content, Left, List, ListItem, Thumbnail} from 'native-base'
 import { Actions } from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
+
+import {CalendarIcon, CallIcon, ContactsIcon, SettingsIcon} from '../components/common/Icons'
 
 export default function SideBar() {
     const [students, setStudents] = useState([])
@@ -50,7 +52,7 @@ export default function SideBar() {
                         avatar 
                         onPress={()=>Actions.calenderScreen()}> 
                         <Left style={styles.left}>
-                            <Icon name='calendar' style={styles.icon}/>
+                            <CalendarIcon style={styles.iconStyle}/>
                         </Left>
                         <Text style={styles.listItemTitle}>Calender</Text>
                     </ListItem>
@@ -58,7 +60,7 @@ export default function SideBar() {
                         avatar 
                         onPress={()=>Actions.contactUsScreen()}> 
                         <Left style={styles.left}>
-                            <Icon name='call' style={styles.icon}/>
+                            <CallIcon style={styles.iconStyle}/>
                         </Left>
                         <Text style={styles.listItemTitle}>Contact Us</Text>
                     </ListItem >
@@ -66,7 +68,7 @@ export default function SideBar() {
                         avatar 
                         onPress={()=>Actions.aboutUsScreen()}> 
                         <Left style={styles.left}>
-                            <Icon name='contacts' style={styles.icon}/>
+                            <ContactsIcon style={styles.iconStyle}/>
                         </Left>
                         <Text style={styles.listItemTitle}>About Us</Text>   
                     </ListItem>
@@ -74,7 +76,7 @@ export default function SideBar() {
                         avatar 
                         onPress={()=>Actions.settingScreen()}> 
                         <Left style={styles.left}>
-                            <Icon name='md-settings' style={styles.icon}/>
+                            <SettingsIcon style={styles.iconStyle}/>
                         </Left>
                         <Text style={styles.listItemTitle}>Setting</Text>
                     </ListItem>
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50
     },
-    icon:{
+    iconStyle:{
         width: '100%',
         marginLeft: 10,
         color: 'white',
