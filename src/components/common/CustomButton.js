@@ -1,14 +1,15 @@
 import React from 'react'
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native'
 
-export default function Button({title, onPressFunction, style}) {
+export default function Button({title, onPressFunction, style, disabled}) {
     
     return (
         <View style = {style}>
             <TouchableOpacity
-                style={[styles.btn, style.backgroundColor ? style.backgroundColor: styles.backgroundColor]}>
-                <Text style={{fontSize: 16, letterSpacing: 1, width: '100%', textAlign: 'center'}} 
+                disabled={disabled}
+                style={[styles.btn, style.backgroundColor ? style.backgroundColor: styles.backgroundColor]}
                 onPress={() => onPressFunction()}>
+                <Text style={{fontSize: 16, letterSpacing: 1, width: '100%', textAlign: 'center'}} >
                     {title}
                 </Text>
             </TouchableOpacity>

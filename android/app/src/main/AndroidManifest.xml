@@ -7,7 +7,7 @@
     <permission
         android:name="com.schoolwardsapp.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="ccom.schoolwardsapp.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.schoolwardsapp.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
@@ -31,7 +31,27 @@
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
-      <service android:name="io.invertase.firebase.messaging.ReactNativeFirebaseMessagingService" />
+      <!-- Firebase Messaging & notification dependencies -->
+      <receiver android:name="io.invertase.firebase.notifications.ReactNativeFirebaseBackgroundNotificationActionReceiver" android:exported="true">
+        <intent-filter>
+          <action     
+          android:name="io.invertase.firebase.notifications.BackgroundAction"/>
+        </intent-filter>
+      </receiver>
+
+      <!-- <service 
+        android:name="io.invertase.firebase.messaging.ReactNativeFirebaseMessagingService" /> -->
+
+      <!-- <service  
+        android:name="io.invertase.firebase.notifications.ReactNativeFirebaseBackgroundNotificationActionsService"/> -->
+
+      <!-- <service 
+        android:name="io.invertase.firebase.messaging.RNFirebaseMessagingListenerService" >
+        <intent-filter>
+          <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        </intent-filter>
+      </service> -->
+        
       <!-- <service  
         android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService">
         <intent-filter>

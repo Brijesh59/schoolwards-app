@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {StyleSheet, View, ScrollView} from 'react-native'
+import {StyleSheet, View, ScrollView, SafeAreaView, Platform} from 'react-native'
 import { Text, Container, Content, Left, List, ListItem, Thumbnail} from 'native-base'
 import { Actions } from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -18,8 +18,9 @@ export default function SideBar() {
         getCachedData()
     }, [])
     return (
-        <Container style={styles.container}>
-           <View style={{alignItems:'center'}}>
+        <Container style={[styles.container]}>
+           <View style={[{alignItems:'center'}, 
+            Platform.OS==='ios' && {marginTop:25}]}>
                 <Thumbnail 
                     large
                     style={styles.schoolLogo} 
@@ -35,6 +36,7 @@ export default function SideBar() {
                         students.map(student => (
                             <ListItem 
                                 avatar 
+                                key={student.name}
                                 onPress={()=>Actions.profileScreen({student})}>  
                                 <Left style={styles.left}>
                                     <Thumbnail style={styles.thumbnail} source={{uri: 'https://storage.jewnetwork.com/content/users/avatars/3675/avatar_3675_500.jpg'}} />

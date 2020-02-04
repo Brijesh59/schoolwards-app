@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {View, Text, StyleSheet} from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { Actions }  from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
 import DeviceInfo   from 'react-native-device-info';
@@ -42,6 +42,7 @@ const VerifyOTP = (props) => {
             console.log('Error in fetching fcmToken')  
         }
     }
+
     useEffect(() => {
         getToken()
         console.log("FCMToken: ", fcmToken)
@@ -112,6 +113,7 @@ const VerifyOTP = (props) => {
     } 
 
     const setUserLoggedIn = async (students, commonEvents) => {
+        console.log('Common Events: ', commonEvents)
         await AsyncStorage.setItem('isUserLoggedIn', 'true')
         const dataToSave = {
             students: [],
@@ -121,7 +123,8 @@ const VerifyOTP = (props) => {
         // Saving Students details
         students.forEach(student => {
             dataToSave.students.push({
-                name: `${student.first_name} ${student.middle_name} ${student.last_name}` ,
+                firstName: student.first_name,
+                name: `${student.first_name} ${student.middle_name && student.middle_name} ${student.last_name && student.last_name}` ,
                 prnNo: student.prn_no,
                 dateOfBirth: student.dob,
                 gender: student.gender,
@@ -180,8 +183,7 @@ const VerifyOTP = (props) => {
             })
         })
 
-
-       await AsyncStorage.setItem('cachedData', JSON.stringify(dataToSave))
+        await AsyncStorage.setItem('cachedData', JSON.stringify(dataToSave))
 
     }
 
@@ -261,6 +263,7 @@ const VerifyOTP = (props) => {
                 title='Verify Now'
                 onPressFunction={loginToDashboard}
                 style={{marginTop: 20, width:'80%'}}
+                disabled={isLoading}
             />
             { showErrorMessage &&
                 <Text style={styles.errorStyle}>
@@ -306,5 +309,17 @@ const styles = StyleSheet.create({
       borderWidth: 1
     }
 })
+
+
+
+// const mapStateToProps = (state) => {
+//     console.log(state)
+//     return {
+//         students: [],
+//         events: []
+//     }
+// }
+
+// const mapDispatchToProps = (dispatch)
 
 export default VerifyOTP

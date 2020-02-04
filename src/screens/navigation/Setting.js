@@ -65,7 +65,9 @@ export default function Setting() {
                     style={{maxHeight: '80%'}}>
                     {
                         notificationToneList.map((tone => (
-                            <TouchableOpacity onPress={() => handleToneChange(tone)}>
+                            <TouchableOpacity 
+                                onPress={() => handleToneChange(tone)}
+                                key={tone}>
                                 <View style={{
                                     width: '80%',
                                     marginLeft: 15,
@@ -73,7 +75,7 @@ export default function Setting() {
                                     justifyContent: 'space-between',
                                     padding: 8,
                                 }}
-                                key={tone}>
+                                >
                                     <Text style={{color: '#707070', fontSize:16}}>
                                         {tone}
                                     </Text>

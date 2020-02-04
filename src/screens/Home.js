@@ -105,7 +105,7 @@ export default class Home extends React.Component{
             selectedTypesApplied: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"]
         }
     }
-    getCachedData = async()=>{
+    getCachedData = async() => {
         const cachedData = await AsyncStorage.getItem('cachedData')
         const JSONData = JSON.parse(cachedData)
         const selectedStudents = JSONData.students.map((student => student.name))
@@ -252,7 +252,7 @@ export default class Home extends React.Component{
                                     .filter(event => this.state.selectedTypesApplied.indexOf(event.type)!=-1)
                                     // .filter(event => this.state.selectedStudentsApplied.indexOf(event.studentName)!=-1)
                                     
-        
+        console.log("Events: ", this.state.events)
         console.log("Filtered Events: ", filteredEvents)
         const header = 
             <Header 

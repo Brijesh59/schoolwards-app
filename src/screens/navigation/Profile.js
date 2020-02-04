@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native'
 import { Text, Container, Content, Thumbnail, Grid, Col, Row} from 'native-base'
 import CustomButton from '../../components/common/CustomButton'
 import CustomHeader from '../../components/common/CustomHeader';
+import { Actions } from 'react-native-router-flux';
 
 export default function Profile({student}) {
     console.log("Profile: ", student)
@@ -83,7 +84,7 @@ export default function Profile({student}) {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                {student.fatherName}
+                                {student.fatherName && student.fatherName}
                             </Text>
                         </Col>
                     </Row>
@@ -97,7 +98,7 @@ export default function Profile({student}) {
                         <Col> 
                             <Text 
                                 style={styles.value}>
-                                {student.motherName}
+                                {student.motherName && student.motherName}
                             </Text>
                         </Col>
                     </Row>
@@ -160,7 +161,9 @@ export default function Profile({student}) {
                 </Grid>
                 <CustomButton 
                     title="Fee Details" 
-                    onPressFunction={()=>console.log('Fee Details')}
+                    onPressFunction={()=>Actions.feeScreen({
+                        Class: student.class, Section:student.division
+                    })}
                     style={{marginTop: 10,marginBottom:20, width:'50%'}}/>
             </Content>
         </Container>

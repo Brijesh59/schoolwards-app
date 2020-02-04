@@ -50,7 +50,9 @@ export default class FirebaseConfig{
       const JSONData = JSON.parse(remoteMessage.data.note)
       const payload = JSONData.non_interaction_attributes.display_attributes
       console.log('FCM Message in Foreground: ', payload)
-      // do something with payload data...
+      // Cache the payload data...
+      await this.cachePayloadData(payload)
+      // send local notification
       this.sendLocalNotification(payload);
     });
   }
@@ -84,6 +86,10 @@ export default class FirebaseConfig{
       });
     }
       
+  }
+
+  async cachePayloadData(payload){
+    console.log(payload)
   }
 }  
 

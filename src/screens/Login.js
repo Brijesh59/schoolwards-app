@@ -77,6 +77,7 @@ class Login extends Component {
           title='Next'
           onPressFunction={this.sendOTP}
           style={{marginTop: 20, width:'80%'}}
+          disabled={this.state.isLoading}
         />
         { this.state.isLoading && <ActivityLoader /> }
         { this.state.data.response && this.state.data.response!='success' && 

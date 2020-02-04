@@ -12,6 +12,7 @@ import ContactUs    from '../screens/navigation/ContactUs'
 import AboutUs      from '../screens/navigation/AboutUs'
 import Calender     from '../screens/navigation/Calender'
 import Setting      from '../screens/navigation/Setting'
+import FeeDetails      from '../screens/navigation/FeeDetails'
 
 const RouterComponent = () => {
     return (
@@ -72,6 +73,9 @@ const RouterComponent = () => {
                     <Scene
                         key="detailsScreen"
                         component={Details} />
+                    <Scene
+                        key="feeScreen"
+                        component={FeeDetails} />
                 </Stack> 
             </Router>   
         </>
