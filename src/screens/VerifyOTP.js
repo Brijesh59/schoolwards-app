@@ -4,12 +4,14 @@ import { Actions }  from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
 import DeviceInfo   from 'react-native-device-info';
 import axios        from 'axios'
+import { connect }    from 'react-redux'
 
 import ActivityLoader from '../components/common/ActivityLoader'
 import APIs           from '../utils/api'
 import app_config     from '../utils/config'
 import CustomButton   from '../components/common/CustomButton'
 import Input          from '../components/common/Input'
+import { fetchStudents, fetchEvents } from '../redux/actions'
 
 
 const VerifyOTP = (props) => {
@@ -33,10 +35,10 @@ const VerifyOTP = (props) => {
     const sixthDigitRef  = useRef(null);
 
     async function getToken(){
-        let fcmToken = null
+        let token = null
         try {
-            fcmToken = await AsyncStorage.getItem('fcmToken')
-            setFcmToken(fcmToken)
+            token = await AsyncStorage.getItem('fcmToken')
+            setFcmToken(token)
         } 
         catch (error) {
             console.log('Error in fetching fcmToken')  
@@ -71,7 +73,7 @@ const VerifyOTP = (props) => {
     }, [fifthDigit])
 
     const loginToDashboard = async() => {
-        setIsLoding(true)
+        // setIsLoding(true)
         // verify OTP, then redirect to dashboard.
         const OTP = firstDigit + secondDigit + thirdDigit + fourthDigit + fifthDigit + sixthDigit
         
@@ -84,31 +86,35 @@ const VerifyOTP = (props) => {
         formData.append('appname', app_config.schoolName)
 
         console.log('Requesting Login for...', formData)
+        await props.fetchStudent(formData)
         
-        axios.post(APIs.VERIFY_OTP, formData, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        })
-        .then(async(res) => {
-            setIsLoding(false)
-            const response = res.data.response
-            console.log("Response: " , res.data)
-            if(response === 'success'){
-                console.log('Login Success.')  
-                await setUserLoggedIn(res.data.students, res.data.common_events)
-                Actions.dashboard();
-            }
-            else{
-                console.log('Login Failed => ', response)
-                setShowErrorMessage(response)  
-            }
-        })
-        .catch(err => {
-            setIsLoding(false)
-            console.log('Server/Network Error => ', err)
-            setShowErrorMessage(err.toString())
-        })
+        if(!props.error){
+            Actions.dashboard();
+        }
+        // axios.post(APIs.VERIFY_OTP, formData, {
+        //     headers: {
+        //         'content-type': 'multipart/form-data'
+        //     }
+        // })
+        // .then(async(res) => {
+        //     setIsLoding(false)
+        //     const response = res.data.response
+        //     console.log("Response: " , res.data)
+        //     if(response === 'success'){
+        //         console.log('Login Success.')  
+        //         await setUserLoggedIn(res.data.students, res.data.common_events)
+        //         Actions.dashboard();
+        //     }
+        //     else{
+        //         console.log('Login Failed => ', response)
+        //         setShowErrorMessage(response)  
+        //     }
+        // })
+        // .catch(err => {
+        //     setIsLoding(false)
+        //     console.log('Server/Network Error => ', err)
+        //     setShowErrorMessage(err.toString())
+        // })
 
     } 
 
@@ -265,12 +271,12 @@ const VerifyOTP = (props) => {
                 style={{marginTop: 20, width:'80%'}}
                 disabled={isLoading}
             />
-            { showErrorMessage &&
+            { props.error=='' &&
                 <Text style={styles.errorStyle}>
-                    {showErrorMessage}
+                    {props.error}
                 </Text> 
             }   
-            { isLoading && <ActivityLoader /> }
+            { props.isLoading && <ActivityLoader /> }
         </View>
     )
 }
@@ -311,15 +317,21 @@ const styles = StyleSheet.create({
 })
 
 
-
-// const mapStateToProps = (state) => {
-//     console.log(state)
-//     return {
-//         students: [],
-//         events: []
-//     }
-// }
-
-// const mapDispatchToProps = (dispatch)
-
-export default VerifyOTP
+const mapStateToProps = state => {
+    console.log("GlobaleState: ", state)
+    return {
+        students: state.studentReducer.students,
+        events: state.eventReducer.events
+    }
+ }
+ 
+ const mapDispatchToProps = dispatch =>{
+     return {
+        fetchStudent: formData => dispatch(fetchStudents(formData))
+     }
+ }   
+ 
+ export default connect(
+     mapStateToProps, 
+     mapDispatchToProps
+ )(VerifyOTP)

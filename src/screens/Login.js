@@ -5,6 +5,7 @@ import APIs from '../utils/api'
 import { Actions } from 'react-native-router-flux';
 import CustomButton from '../components/common/CustomButton';
 import app_config from '../utils/config'
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Login extends Component {
 
@@ -46,9 +47,10 @@ class Login extends Component {
       body: formData
     })
     .then(res => res.json())
-    .then(data => {
+    .then(async (data) => {
       this.setState({isLoading: false, data})
       if(data.response === 'success'){
+          await AsyncStorage.setItem('mobile', this.state.value)
           Actions.OTP(this.state.value);
       }
     })

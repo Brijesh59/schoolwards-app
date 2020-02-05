@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import App from './src/components/App';
 import {name as appName} from './app.json';
 import FirebaseConfig from './src/utils/Firebase'
-import store from './src/store'
+import store from './src/redux/store'
 
 const SchoolWardsApp = () => 
     <Provider store={store}>

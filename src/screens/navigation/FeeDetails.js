@@ -5,7 +5,7 @@ import CustomHeader from '../../components/common/CustomHeader'
 import ActivityLoader from '../../components/common/ActivityLoader'
 import axios from 'axios'
 import {connect} from 'react-redux'
-import { pushStudent } from '../../actions/index'
+import { pushStudent } from '../../redux/actions/index'
 import APIs from '../../utils/api'
 import { ScrollView } from 'react-native-gesture-handler'
 
@@ -191,7 +191,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>{
     return {
-        pushStudent: dispatch(pushStudent())
+        pushStudent: student => dispatch(pushStudent(student))
     }
 }   
 

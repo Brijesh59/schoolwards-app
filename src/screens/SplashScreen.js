@@ -3,6 +3,8 @@ import { View, StyleSheet, Image } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import AsyncStorage from '@react-native-community/async-storage'
 import * as Progress from 'react-native-progress'
+import { connect }    from 'react-redux'
+import { pushStudents, pushEvents } from '../redux/actions'
 
 class SplashScreen extends Component {
     state = {
@@ -11,7 +13,7 @@ class SplashScreen extends Component {
     
     componentDidMount(){
 
-        let loadingInterval = setInterval(()=>{
+        const loadingInterval = setInterval(()=>{
             this.setState( {
                 progress: this.state.progress + 0.1
             })
@@ -20,6 +22,7 @@ class SplashScreen extends Component {
         setTimeout(async () => {
             const isUserLoggedIn = await AsyncStorage.getItem('isUserLoggedIn')
             const isFirstTimeUse = await AsyncStorage.getItem('isFirstTimeUse')
+            
 
             clearInterval(loadingInterval)
 
@@ -27,6 +30,12 @@ class SplashScreen extends Component {
                 Actions.onBoarding()
             }
             else if(isUserLoggedIn === 'true'){
+                const cachedData  = await AsyncStorage.getItem('cachedData')
+                const JSONData = JSON.parse(cachedData)
+                const students = JSONData.students
+                const events = JSONData.events
+                this.props.pushStudent(students)
+                this.props.pushEvent(events)
                 Actions.dashboard()
             }
             else{
@@ -68,4 +77,21 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SplashScreen
+const mapStateToProps = state => {
+    return {
+        students: state.studentReducer.students,
+        events:   state.eventReducer.events
+    }
+}
+ 
+ const mapDispatchToProps = dispatch => {
+     return {
+        pushStudent: students => dispatch(pushStudents(students)),
+        pushEvent:   events  => dispatch(pushEvents(events))
+     }
+ }   
+ 
+ export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+ )(SplashScreen)

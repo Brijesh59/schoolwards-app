@@ -4,13 +4,15 @@ import Modal from 'react-native-modal'
 import { Container, Content, Left, Button, Title, Body, Right, Header, Drawer, Text, Radio, ListItem, CheckBox } from 'native-base'
 import { Actions }  from 'react-native-router-flux'
 import AsyncStorage from '@react-native-community/async-storage'
-
+import { connect }    from 'react-redux'
 import CustomCard   from '../components/common/CustomCard'
 import SideBar      from './SideBar'
 import CustomButton from '../components/common/CustomButton'
 import {FilterIcon, SortIcon, LogoutIcon, MenuIcon} from '../components/common/Icons'
+import FirebaseConfig from '../utils/Firebase'
+import { pushStudents, pushEvents } from '../redux/actions'
 
-export default class Home extends React.Component{
+class Home extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -104,6 +106,7 @@ export default class Home extends React.Component{
             selectedTypes: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"],
             selectedTypesApplied: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"]
         }
+        this.firebase = new FirebaseConfig()
     }
     getCachedData = async() => {
         const cachedData = await AsyncStorage.getItem('cachedData')
@@ -113,8 +116,10 @@ export default class Home extends React.Component{
         this.setState({events: JSONData.events, students: JSONData.students, selectedStudents, selectedStudentsApplied })
     }
 
-    componentDidMount = () => {
+    componentDidMount = async() => {
         this.getCachedData()
+        const mobile = await AsyncStorage.getItem('mobile')
+        this.firebase.onFirebaseTokenRefresh(mobile)
     }
 
     closeDrawer = () => { this._drawer._root.close() }
@@ -238,6 +243,10 @@ export default class Home extends React.Component{
                     text: 'Yes',
                     onPress: async()=>{
                         await AsyncStorage.setItem('isUserLoggedIn', 'false')
+                        await AsyncStorage.setItem(
+                            'cachedData', 
+                            JSON.stringify({students:[],events:[]})
+                        )
                         Actions.auth()
                     },
                     style: 'ok'
@@ -247,13 +256,14 @@ export default class Home extends React.Component{
     }
 
     render(){
-
+        console.log("PROPS STUDENTS: ", this.props.students)
+        console.log("PROPS STUDENTS: ", this.props.events)
         const filteredEvents = this.state.events
                                     .filter(event => this.state.selectedTypesApplied.indexOf(event.type)!=-1)
                                     // .filter(event => this.state.selectedStudentsApplied.indexOf(event.studentName)!=-1)
                                     
-        console.log("Events: ", this.state.events)
-        console.log("Filtered Events: ", filteredEvents)
+        // console.log("Events: ", this.state.events)
+        // console.log("Filtered Events: ", filteredEvents)
         const header = 
             <Header 
                 style={styles.header}           
@@ -535,4 +545,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     }
 });
+
+const mapStateToProps = state => {
+    console.log("Student Reducer: ", state.studentReducer)
+    return {
+        students: state.studentReducer.students,
+        events:   state.eventReducer.events
+    }
+}
+   
+export default connect(
+    mapStateToProps
+)(Home)
+
   
