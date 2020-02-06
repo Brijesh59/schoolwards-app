@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {StyleSheet, TouchableOpacity, View, ScrollView, Linking, Platform} from 'react-native'
 import Modal from 'react-native-modal'
 import { Container, Content, Text, Switch, Radio } from 'native-base'
@@ -8,19 +8,55 @@ import CustomHeader from '../../components/common/CustomHeader'
 import CustomButton from '../../components/common/CustomButton'
 
 export default function Setting() {
-    const [notificationSound, setNotificationSound] = useState(true)
-    const [vibration, setVibration] = useState(true)
+    const [notificationSound, setNotificationSound] = useState(null)
+    const [vibration, setVibration] = useState(null)
     const [showNotificationToneModal, setShowNotificationToneModal] = useState(false)
     const [activeTone, setActiveTone] = useState('Default')
     const [activeToneApplied, setActiveToneApplied] = useState('Default')
 
+    // useEffect(()=>{
+    //     console.log('Change in notification')
+    //     const save = async() => {
+    //         await AsyncStorage.setItem('notification', `${notificationSound}`)
+    //     }
+    //     save()  
+    // },[notificationSound])
+
+    // useEffect(()=>{
+    //     console.log('Change in vibration')
+    //     const save = async() => {
+    //         await AsyncStorage.setItem('vibration', `${vibration}`)
+    //         const re = await AsyncStorage.getItem('vibration')
+    //         console.log("Change: ", re)
+    //     }
+    //     save() 
+    // },[vibration])
+
+    useEffect(()=>{
+        const save = async() => {
+            let notification = await AsyncStorage.getItem('notification')
+            let vibration =    await AsyncStorage.getItem('vibration')
+            console.log("notification before", notification)
+            console.log("vibration before", vibration)
+            notification = notification === null ? true : notification === 'true'
+            vibration =    vibration    === null ? true : vibration === 'true'
+            console.log("notification", notification)
+            console.log("vibration", vibration)
+            setNotificationSound(notification)
+            setVibration(vibration)
+        }
+        save() 
+    },[])
+
     const notificationToneList = ["Default", "Arrow", "Bongo", "Car Lock", "Chess", "Crystal Drop", "Facebook Pop", "Flash", "Guitar", "Mushroom", "Old Bicycle", "Pixies", "Play", "Shimmer", "Step"]
 
-    const handleNotificationSound = () => {
+    const handleNotificationSound = async() => {
+        await AsyncStorage.setItem('notification', `${!notificationSound}`)
         setNotificationSound(!notificationSound)
     }
 
-    const handleVibration = () => {
+    const handleVibration = async() => {
+        await AsyncStorage.setItem('vibration', `${!vibration}`)
         setVibration(!vibration)
     }
 
@@ -132,11 +168,11 @@ export default function Setting() {
                         onValueChange={handleNotificationSound}
                     />
                 </View> 
-                <Title text="Notification Tone" />    
+                {/* <Title text="Notification Tone" />    
                 <TouchableOpacity onPress={()=>setShowNotificationToneModal(true)}>
                     <SubTitle text={activeToneApplied} style={{paddingBottom: 5}}/>  
                     <SubTitle text="Choose from Files" />
-                </TouchableOpacity>    
+                </TouchableOpacity>     */}
                 <Divider />
                 <View style={styles.group}>
                     <Title text="Vibration" />

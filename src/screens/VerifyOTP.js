@@ -97,6 +97,7 @@ const VerifyOTP = (props) => {
             if(response === 'success'){
                 console.log('Login Success.')  
                 await setUserLoggedIn(res.data.students, res.data.common_events)
+                await AsyncStorage.setItem('mobile', mobileNo)
                 Actions.dashboard();
             }
             else{
@@ -309,17 +310,5 @@ const styles = StyleSheet.create({
       borderWidth: 1
     }
 })
-
-
-
-// const mapStateToProps = (state) => {
-//     console.log(state)
-//     return {
-//         students: [],
-//         events: []
-//     }
-// }
-
-// const mapDispatchToProps = (dispatch)
 
 export default VerifyOTP

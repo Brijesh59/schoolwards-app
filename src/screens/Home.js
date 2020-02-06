@@ -1,110 +1,118 @@
 import React from 'react'
-import {StyleSheet, TouchableOpacity, FlatList, View, Alert} from 'react-native'
+import {StyleSheet, TouchableOpacity, FlatList, View, Alert, AppState} from 'react-native'
 import Modal from 'react-native-modal'
 import { Container, Content, Left, Button, Title, Body, Right, Header, Drawer, Text, Radio, ListItem, CheckBox } from 'native-base'
 import { Actions }  from 'react-native-router-flux'
 import AsyncStorage from '@react-native-community/async-storage'
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/messaging';
 
+import FirebaseConfig from '../utils/Firebase'
 import CustomCard   from '../components/common/CustomCard'
 import SideBar      from './SideBar'
 import CustomButton from '../components/common/CustomButton'
 import {FilterIcon, SortIcon, LogoutIcon, MenuIcon} from '../components/common/Icons'
 
 export default class Home extends React.Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            showToast: false,
-            showFilterModal: false,
-            showSortModal: false,
-            sortOldToNew: false,
-            sortNewtoOld: true,
-            cards: [
-                {
-                    title:"Test Announcement",
-                    type:"Announcement",
-                    description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                    to: "all",
-                    dateTime:"16 January 2020, 09:57 AM",
-                    attatchment: null
-                },
-                {
-                    title:"Test Announcement",
-                    type:"Announcement",
-                    description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                    to: "individual",
-                    studentName:"Aman Verma",
-                    dateTime:"16 January 2020, 09:57 AM",
-                    attatchment: null
-                },
-                {
-                    title:"Test Event",
-                    type:"Event",
-                    description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                    to: "individual",
-                    studentName:"Vikas Verma",
-                    dateTime:"20 February 2020, 09:57 AM",
-                    venue: "School Hall",
-                    startDate: "23 February 2020, 09:57 AM",
-                    endDate: "25 February 2020, 09:57 AM",
-                    attatchment: null
-                },
-                {
-                    title:"Test Homework",
-                    type:"Homework",
-                    description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                    assignedBy: "Raman Vohra",
-                    to: "individual",
-                    studentName:"Vikas Verma",
-                    dateTime:"20 February 2020, 09:57 AM",
-                    attatchment: "https://images.unsplash.com/photo-1579705743135-bc6ef4f6a8d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-                },
-                {
-                    title:"Test Homework 2",
-                    type:"Homework",
-                    description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                    assignedBy: "Raman Vohra",
-                    to: "individual",
-                    studentName:"Vikas Verma",
-                    dateTime:"20 February 2020, 09:57 AM",
-                    attatchment: null,
-                },
-                {
-                    title:"Test Message",
-                    type:"Message",
-                    description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                    sendBy: "Akansha Vats",
-                    to: "individual",
-                    studentName:"Vikas Verma",
-                    dateTime:"20 February 2020, 09:57 AM"
-                },
-                {
-                    title:"Test News",
-                    type:"News",
-                    description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                    to: "individual",
-                    studentName:"Samay Verma",
-                    dateTime:"20 February 2020, 09:57 AM",
-                    attatchment: null,
-                },
-                {
-                    title:"Test Timetable",
-                    type:"Timetable",
-                    description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                    to: "individual",
-                    studentName:"Samay Verma",
-                    dateTime:"20 February 2020, 09:57 AM"
-                }
-            ],
-            events: [],
-            students: [],
-            selectedStudents: [],
-            selectedStudentsApplied: [],
-            types: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"],
-            selectedTypes: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"],
-            selectedTypesApplied: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"]
-        }
+
+    state = {
+        appState: AppState.currentState,
+        showToast: false,
+        showFilterModal: false,
+        showSortModal: false,
+        sortOldToNew: false,
+        sortNewtoOld: true,
+        cards: [
+            {
+                title:"Test Announcement",
+                type:"Announcement",
+                description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                to: "all",
+                dateTime:"16 January 2020, 09:57 AM",
+                attatchment: null
+            },
+            {
+                title:"Test Announcement",
+                type:"Announcement",
+                description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                to: "individual",
+                studentName:"Aman Verma",
+                dateTime:"16 January 2020, 09:57 AM",
+                attatchment: null
+            },
+            {
+                title:"Test Event",
+                type:"Event",
+                description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                to: "individual",
+                studentName:"Vikas Verma",
+                dateTime:"20 February 2020, 09:57 AM",
+                venue: "School Hall",
+                startDate: "23 February 2020, 09:57 AM",
+                endDate: "25 February 2020, 09:57 AM",
+                attatchment: null
+            },
+            {
+                title:"Test Homework",
+                type:"Homework",
+                description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                assignedBy: "Raman Vohra",
+                to: "individual",
+                studentName:"Vikas Verma",
+                dateTime:"20 February 2020, 09:57 AM",
+                attatchment: "https://images.unsplash.com/photo-1579705743135-bc6ef4f6a8d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+            },
+            {
+                title:"Test Homework 2",
+                type:"Homework",
+                description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                assignedBy: "Raman Vohra",
+                to: "individual",
+                studentName:"Vikas Verma",
+                dateTime:"20 February 2020, 09:57 AM",
+                attatchment: null,
+            },
+            {
+                title:"Test Message",
+                type:"Message",
+                description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                sendBy: "Akansha Vats",
+                to: "individual",
+                studentName:"Vikas Verma",
+                dateTime:"20 February 2020, 09:57 AM"
+            },
+            {
+                title:"Test News",
+                type:"News",
+                description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                to: "individual",
+                studentName:"Samay Verma",
+                dateTime:"20 February 2020, 09:57 AM",
+                attatchment: null,
+            },
+            {
+                title:"Test Timetable",
+                type:"Timetable",
+                description:"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                to: "individual",
+                studentName:"Samay Verma",
+                dateTime:"20 February 2020, 09:57 AM"
+            }
+        ],
+        events: [],
+        students: [],
+        selectedStudents: [],
+        selectedStudentsApplied: [],
+        types: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"],
+        selectedTypes: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"],
+        selectedTypesApplied: ["News", "Messages", "Events", "Announcement", "Homework", "Timetable"]
     }
+
+    constructor(props = null){
+        super(props)
+        this.firebase = new FirebaseConfig()
+    }
+
     getCachedData = async() => {
         const cachedData = await AsyncStorage.getItem('cachedData')
         const JSONData = JSON.parse(cachedData)
@@ -113,8 +121,41 @@ export default class Home extends React.Component{
         this.setState({events: JSONData.events, students: JSONData.students, selectedStudents, selectedStudentsApplied })
     }
 
-    componentDidMount = () => {
+    updateState = () => {
+        setTimeout(async()=>{
+            const cachedData = await AsyncStorage.getItem('cachedData')
+            const JSONDATA = JSON.parse(cachedData)
+            console.log("Updating the state ...")
+            this.setState({events: JSONDATA.events, students: JSONDATA.students})
+        }, 4000)
+    }
+
+    componentDidMount = async() => {
+        console.log("Home Component mounted")
+        AppState.addEventListener('change', this.handleAppStateChange)
         this.getCachedData()
+        const mobile = await AsyncStorage.getItem('mobile')
+        this.firebase.onFirebaseTokenRefresh(mobile) 
+        this.unsubscribe = firebase.messaging().onMessage( rM => {
+            this.updateState();
+            console.log('State Updated')
+        });
+    }
+
+    handleAppStateChange = (nextAppState) => {
+        if(this.state.appState.match(/inactive|background/) && nextAppState === 'active'){
+            console.log("App has come to foreground")
+            this.updateState()
+        }
+        this.setState({
+            appState: nextAppState
+        })
+    }
+
+    componentWillUnmount(){
+        AppState.removeEventListener('change', this.handleAppStateChange)
+        this.unsubscribe();
+        console.log("Unsubscribed")
     }
 
     closeDrawer = () => { this._drawer._root.close() }
@@ -238,6 +279,8 @@ export default class Home extends React.Component{
                     text: 'Yes',
                     onPress: async()=>{
                         await AsyncStorage.setItem('isUserLoggedIn', 'false')
+                        await AsyncStorage.setItem('cachedData', 
+                            JSON.stringify({students:[], events:[]}))
                         Actions.auth()
                     },
                     style: 'ok'
@@ -247,13 +290,13 @@ export default class Home extends React.Component{
     }
 
     render(){
-
+        console.log("Home Rerender")
         const filteredEvents = this.state.events
                                     .filter(event => this.state.selectedTypesApplied.indexOf(event.type)!=-1)
                                     // .filter(event => this.state.selectedStudentsApplied.indexOf(event.studentName)!=-1)
                                     
-        console.log("Events: ", this.state.events)
-        console.log("Filtered Events: ", filteredEvents)
+        // console.log("Events: ", this.state.events)
+        // console.log("Filtered Events: ", filteredEvents)
         const header = 
             <Header 
                 style={styles.header}           
@@ -479,6 +522,7 @@ export default class Home extends React.Component{
                             { mainContent }
                             { sortModal }
                             { filterModal }
+                            <View style={{height: 20}}/>
                         </Content>
                     </Container>
                 </Drawer> 
