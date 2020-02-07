@@ -76,13 +76,13 @@ function FeeDetails(props) {
     const renderItems = []
     for (let key in items){
         renderItems.push(
-            <Card style={styles.card}>
+            <Card style={styles.card} key={key}>
                 <CardItem header bordered>
                     <Text style={styles.header}>{key}</Text>
                 </CardItem>
                 {
                     items[key].map(i=>(
-                        <CardItem>   
+                        <CardItem key={Math.random()}>   
                             <Left>
                                 <Text style={styles.text}>{i.description}</Text>
                             </Left>
@@ -121,7 +121,7 @@ function FeeDetails(props) {
             <CustomHeader title="Fee Details" />
             <Content 
                 contentContainerStyle={styles.container}> 
-                <ScrollView style={{width: '100%'}}>
+                {/* <ScrollView style={{width: '100%'}}> */}
                     {renderItems}
                     {isLoading && <ActivityLoader />}
                     {emptyData && 
@@ -134,7 +134,7 @@ function FeeDetails(props) {
                             {errorData}
                         </Text>
                     }
-                </ScrollView>
+                {/* </ScrollView> */}
                
             </Content>
         </Container>
@@ -143,8 +143,8 @@ function FeeDetails(props) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'flex-start',
+        // flex: 1,
+        // justifyContent: 'flex-start',
         alignItems: 'center',
     },
     card:{

@@ -26,73 +26,73 @@ export default function SideBar() {
                     style={styles.schoolLogo} 
                     source={require('./assets/schoolLogo.png')} />
            </View>
-           <ScrollView>
-            <Content>
-                <List>
-                    <ListItem header style={styles.listHeader}> 
-                        <Text style={styles.listHeaderText}>Children</Text>
-                    </ListItem>
-                    {
-                        students.map(student => (
-                            <ListItem 
-                                avatar 
-                                key={student.name}
-                                onPress={()=>Actions.profileScreen({student})}>  
-                                <Left style={styles.left}>
-                                    <Thumbnail style={styles.thumbnail} source={{uri: 'https://storage.jewnetwork.com/content/users/avatars/3675/avatar_3675_500.jpg'}} />
-                                </Left>
-                                <Text style={styles.listItemTitle}>
-                                    {student.name}
-                                </Text>
-                            </ListItem>
-                        ))
-                    }
-                    <ListItem header style={styles.listHeader}> 
-                        <Text style={styles.listHeaderText}>General</Text>
-                    </ListItem>
-                    <ListItem
-                        avatar 
-                        onPress={()=>Actions.calenderScreen()}> 
-                        <Left style={styles.left}>
-                            <CalendarIcon style={styles.iconStyle}/>
-                        </Left>
-                        <Text style={styles.listItemTitle}>Calender</Text>
-                    </ListItem>
-                    <ListItem 
-                        avatar 
-                        onPress={()=>Actions.contactUsScreen()}> 
-                        <Left style={styles.left}>
-                            <CallIcon style={styles.iconStyle}/>
-                        </Left>
-                        <Text style={styles.listItemTitle}>Contact Us</Text>
-                    </ListItem >
-                    <ListItem
-                        avatar 
-                        onPress={()=>Actions.aboutUsScreen()}> 
-                        <Left style={styles.left}>
-                            <ContactsIcon style={styles.iconStyle}/>
-                        </Left>
-                        <Text style={styles.listItemTitle}>About Us</Text>   
-                    </ListItem>
-                    <ListItem
-                        avatar 
-                        onPress={()=>Actions.settingScreen()}> 
-                        <Left style={styles.left}>
-                            <SettingsIcon style={styles.iconStyle}/>
-                        </Left>
-                        <Text style={styles.listItemTitle}>Setting</Text>
-                    </ListItem>
-                </List>
-            </Content>
-            </ScrollView>
+           {/* <ScrollView> */}
+                <Content>
+                    <List>
+                        <ListItem header style={styles.listHeader}> 
+                            <Text style={styles.listHeaderText}>Children</Text>
+                        </ListItem>
+                        {
+                            students.map(student => (
+                                <ListItem 
+                                    avatar 
+                                    key={student.name}
+                                    onPress={()=>Actions.profileScreen({student})}>  
+                                    <Left style={styles.left}>
+                                        <Thumbnail style={styles.thumbnail} source={{uri: 'https://storage.jewnetwork.com/content/users/avatars/3675/avatar_3675_500.jpg'}} />
+                                    </Left>
+                                    <Text style={styles.listItemTitle}>
+                                        {student.name}
+                                    </Text>
+                                </ListItem>
+                            ))
+                        }
+                        <ListItem header style={styles.listHeader}> 
+                            <Text style={styles.listHeaderText}>General</Text>
+                        </ListItem>
+                        <ListItem
+                            avatar 
+                            onPress={()=>Actions.calenderScreen()}> 
+                            <Left style={styles.left}>
+                                <CalendarIcon style={styles.iconStyle}/>
+                            </Left>
+                            <Text style={styles.listItemTitle}>Calender</Text>
+                        </ListItem>
+                        <ListItem 
+                            avatar 
+                            onPress={()=>Actions.contactUsScreen()}> 
+                            <Left style={styles.left}>
+                                <CallIcon style={styles.iconStyle}/>
+                            </Left>
+                            <Text style={styles.listItemTitle}>Contact Us</Text>
+                        </ListItem >
+                        <ListItem
+                            avatar 
+                            onPress={()=>Actions.aboutUsScreen()}> 
+                            <Left style={styles.left}>
+                                <ContactsIcon style={styles.iconStyle}/>
+                            </Left>
+                            <Text style={styles.listItemTitle}>About Us</Text>   
+                        </ListItem>
+                        <ListItem
+                            avatar 
+                            onPress={()=>Actions.settingScreen()}> 
+                            <Left style={styles.left}>
+                                <SettingsIcon style={styles.iconStyle}/>
+                            </Left>
+                            <Text style={styles.listItemTitle}>Setting</Text>
+                        </ListItem>
+                    </List>
+                </Content>
+           {/* </ScrollView> */}
         </Container>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'flex-start',
+    //   flex: 1,
+    //   justifyContent: 'flex-start',
       backgroundColor: '#2C96EA',
       fontFamily: `'Roboto', sans-serif`
     },

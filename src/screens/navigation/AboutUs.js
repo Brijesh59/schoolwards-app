@@ -7,9 +7,10 @@ export default function AboutUs() {
     return (
         <Container> 
             <CustomHeader title="About Us" />
-            <ScrollView>
+            {/* <ScrollView> */}
 
             <Content 
+                showsVerticalScrollIndicator
                 contentContainerStyle={styles.container}>
                 <Thumbnail 
                     large
@@ -34,14 +35,14 @@ export default function AboutUs() {
                     </Row>
                 </Grid>
             </Content>
-            </ScrollView>
+            {/* </ScrollView> */}
         </Container>
     )
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'flex-start',
+        // flex: 1,
+        // justifyContent: 'flex-start',
         alignItems: 'center',
         //marginTop: 150
     },

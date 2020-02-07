@@ -1,9 +1,9 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { Card, CardItem, Left, Text, Right, Body } from 'native-base'
+import { View, StyleSheet, Image } from 'react-native'
+import { Card, CardItem, Left, Text, Right, Body, Button, Icon } from 'native-base'
 import {AnnouncementIcon, CalendarIcon, HomeworkIcon, MessageIcon, NewsIcon, TimetableIcon, ContactIcon, ContactsIcon, TagIcon} from './Icons'
 
-export default function CustomCard({title, type, description, to, studentName, dateTime, onCardPressed}) {
+export default function CustomCard({title, type, description, to, studentName, dateTime, onCardPressed, attatchment}) {
 
     const getIcon = (iconType) => {
         switch(iconType.toLowerCase()){
@@ -23,6 +23,27 @@ export default function CustomCard({title, type, description, to, studentName, d
                 return ''
         }
     }
+    
+    const isAttatchDownloaded = (attatchName) => {
+        // look in the phone directory, if available return true, else false
+        return false
+    }
+    const openAttatchment = (
+        <Button transparent>
+            <Text>Open Attatchment</Text>
+        </Button>
+    )
+    const downloadAttatchment = (
+        <>  
+            <Image 
+                style={{width:40, height:40}}
+                source={require('../../screens/assets/schoolLogo.png')} />
+            <Text style={{marginRight: 10}}>Attatchment</Text>
+            <Button transparent iconRight>
+                <Icon name="download" />
+            </Button>
+        </>
+    )
 
     return (
         <View>
@@ -43,6 +64,15 @@ export default function CustomCard({title, type, description, to, studentName, d
                             {description}
                         </Text>
                     </Body>
+                </CardItem>
+                <CardItem>
+                    <Left>
+                        { attatchment && 
+                            isAttatchDownloaded('attatchName') ?
+                            openAttatchment :
+                            downloadAttatchment 
+                        }
+                    </Left>
                 </CardItem>
                 <CardItem>
                     <Left>

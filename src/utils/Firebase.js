@@ -1,13 +1,12 @@
-import firebase from '@react-native-firebase/app';
-import '@react-native-firebase/messaging';
-import AsyncStorage from '@react-native-community/async-storage';
-import { Platform } from 'react-native';
+import firebase from '@react-native-firebase/app'
+import '@react-native-firebase/messaging'
+import AsyncStorage from '@react-native-community/async-storage'
+import { Platform } from 'react-native'
 import app_config from './config'
-import PushNotification from 'react-native-push-notification';
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import APIs from './api';
-import config from './config';
-import NetworkRequest from './NetworkRequest';
+import PushNotification from 'react-native-push-notification'
+import PushNotificationIOS from "@react-native-community/push-notification-ios"
+import APIs from './api'
+import NetworkRequest from './NetworkRequest'
 
 export default class FirebaseConfig{
 
@@ -129,14 +128,12 @@ export default class FirebaseConfig{
   }
 
   async cachePayloadData(){
-    console.log("Payload: ")
     const [mobile, fcmToken] = await AsyncStorage.multiGet(["mobile", "fcmToken"])
     const networkRequest = new NetworkRequest()
     const formData = new FormData()
     formData.append('mobile_no', mobile[1])
     formData.append('device_id', fcmToken[1])
     formData.append('appname', app_config.schoolName)
-    console.log("FormData: ", formData)
     const data = await networkRequest.getPendingContents(formData) 
     if(data.device_valid === 'yes'){
       const dataToSave = {
@@ -155,11 +152,11 @@ export default class FirebaseConfig{
         dataToSave.events.push({
           id: NIA_NDA.id,
           title: NIA_DA.title,
-          description: NIA_DA.body,
+          description: NIA_DA.body || NIA_DA.desc,
           type: NIA_DA.series,
           to: obj.object_type ==='common' ? 'all' : 'individual',
           dateTime: NIA_DA.created_on,
-          attatchment: NIA_DA.url != "" ? NIA_DA.url : null,
+          attatchment: NIA_DA.attachment_url != "" ? NIA_DA.attachment_url : null,
           venue: NIA_DA.venue,
           studentName: obj.student_name,
           studentId: obj.prn_no

@@ -16,13 +16,6 @@ class Login extends Component {
       data: '',
     }
   }
-  componentDidMount(){
-    // Prevent going Back
-    BackHandler.addEventListener('hardwareBackPressed', () => {
-        //BackHandler.exitApp()
-        return true;
-    })
-  }
 
   onChangeText = (text) => {
       this.setState({

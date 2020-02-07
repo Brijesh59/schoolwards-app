@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet, TouchableOpacity, FlatList, View, Alert, AppState} from 'react-native'
 import Modal from 'react-native-modal'
-import { Container, Content, Left, Button, Title, Body, Right, Header, Drawer, Text, Radio, ListItem, CheckBox } from 'native-base'
+import { Container, Left, Button, Title, Body, Right, Header, Drawer, Text, Radio, ListItem, CheckBox, Footer } from 'native-base'
 import { Actions }  from 'react-native-router-flux'
 import AsyncStorage from '@react-native-community/async-storage'
 import firebase from '@react-native-firebase/app';
@@ -329,7 +329,7 @@ export default class Home extends React.Component{
 
         const mainContent = this.state.events && 
             <FlatList 
-                data={filteredEvents }
+                data={filteredEvents}
                 renderItem={
                     card => (
                         <TouchableOpacity
@@ -351,7 +351,7 @@ export default class Home extends React.Component{
                         </TouchableOpacity>
                     )
                 }
-                keyExtractor={(card, index) => index}
+                keyExtractor={(card, index) => index.toString()}
             />
         
         const sortModal = 
@@ -518,12 +518,11 @@ export default class Home extends React.Component{
                     onClose = { () => this.closeDrawer() } > 
                     <Container> 
                         {header}
-                        <Content contentContainerStyle={styles.content}>
+                        <View style={styles.content}>
                             { mainContent }
                             { sortModal }
-                            { filterModal }
-                            <View style={{height: 20}}/>
-                        </Content>
+                            { filterModal }    
+                        </View>
                     </Container>
                 </Drawer> 
             </Container>
@@ -544,9 +543,11 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     content:{
-        width:'95%',
-        marginLeft: '2.5%',
-        marginTop: 10
+        // width:'95%',
+        paddingLeft: '2.5%',
+        paddingRight: '2.5%',
+        marginTop: 10,
+        marginBottom: 80
     },
     grid:{
         marginTop: 5,

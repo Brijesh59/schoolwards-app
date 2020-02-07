@@ -67,7 +67,7 @@ export default function CalenderScreen() {
     return (
         <Container> 
             <CustomHeader title="Calender" />
-            <ScrollView>
+            {/* <ScrollView> */}
             <Content 
                 contentContainerStyle={styles.container}>
                 <View style={{
@@ -200,14 +200,14 @@ export default function CalenderScreen() {
                     </ScrollView>
                 </View>
             </Content>
-            </ScrollView>
+            {/* </ScrollView> */}
         </Container>
     )
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'flex-start',
+        // flex: 1,
+        // justifyContent: 'flex-start',
         alignItems: 'center',
     },
     selectedStudent:{

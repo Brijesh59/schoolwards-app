@@ -10,7 +10,6 @@ class SplashScreen extends Component {
     }
     
     componentDidMount(){
-
         let loadingInterval = setInterval(()=>{
             this.setState( {
                 progress: this.state.progress + 0.1
